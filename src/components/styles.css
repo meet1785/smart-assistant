@@ -254,3 +254,386 @@
   background: #5a67d8;
   transform: translateY(-2px);
 }
+
+/* Enhanced Interface Styles */
+.learnai-tabs {
+  display: flex;
+  border-bottom: 1px solid #e1e5e9;
+  background: #f8fafc;
+}
+
+.learnai-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #718096;
+  border-bottom: 2px solid transparent;
+}
+
+.learnai-tab:hover {
+  background: #edf2f7;
+  color: #4a5568;
+}
+
+.learnai-tab.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  background: white;
+}
+
+/* Features Tab Styles */
+.learnai-features {
+  padding: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.learnai-feature-section {
+  margin-bottom: 24px;
+}
+
+.learnai-feature-section h4 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.learnai-feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.learnai-feature-btn {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.learnai-feature-btn:hover:not(:disabled) {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+  transform: translateY(-1px);
+}
+
+.learnai-feature-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Smart Sections Styles */
+.learnai-sections {
+  margin-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+}
+
+.learnai-sections h5 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.learnai-section {
+  background: #f7fafc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-left: 3px solid #667eea;
+}
+
+.learnai-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.learnai-section-time {
+  font-size: 12px;
+  color: #718096;
+  background: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.learnai-key-points {
+  margin: 8px 0 0 0;
+  padding-left: 16px;
+}
+
+.learnai-key-points li {
+  font-size: 13px;
+  color: #4a5568;
+  margin-bottom: 4px;
+}
+
+/* Summary Styles */
+.learnai-summary {
+  margin-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+}
+
+.learnai-summary h5 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.learnai-summary-content {
+  background: #f7fafc;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.learnai-summary-content p {
+  margin: 0 0 8px 0;
+}
+
+/* Quiz Styles */
+.learnai-quiz {
+  margin-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+}
+
+.learnai-quiz h5 {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.learnai-quiz-question {
+  background: #f7fafc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.learnai-question-text {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.learnai-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.learnai-quiz-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.learnai-quiz-option:hover {
+  background: #edf2f7;
+}
+
+.learnai-quiz-option input {
+  margin-right: 8px;
+}
+
+.learnai-quiz-feedback {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.learnai-quiz-feedback.correct {
+  background: #c6f6d5;
+  color: #22543d;
+  border: 1px solid #9ae6b4;
+}
+
+.learnai-quiz-feedback.incorrect {
+  background: #fed7d7;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+}
+
+.learnai-quiz-score {
+  background: #e6fffa;
+  border: 1px solid #81e6d9;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.learnai-quiz-score h6 {
+  margin: 0 0 8px 0;
+  color: #2c7a7b;
+}
+
+/* Progress Tab Styles */
+.learnai-progress {
+  padding: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.learnai-progress h4 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.learnai-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.learnai-stat-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.learnai-stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.learnai-stat-label {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Achievements Styles */
+.learnai-achievements {
+  margin-bottom: 24px;
+}
+
+.learnai-achievements h5 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.learnai-achievement-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.learnai-achievement {
+  display: flex;
+  align-items: center;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.2s;
+}
+
+.learnai-achievement:hover {
+  background: #edf2f7;
+  transform: translateY(-1px);
+}
+
+.learnai-achievement-icon {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.learnai-achievement-info strong {
+  display: block;
+  font-size: 14px;
+  color: #2d3748;
+  margin-bottom: 2px;
+}
+
+.learnai-achievement-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #718096;
+}
+
+.learnai-achievement-count {
+  text-align: center;
+  font-size: 12px;
+  color: #718096;
+  margin-top: 8px;
+}
+
+/* Learning Tips Styles */
+.learnai-tips {
+  background: #f7fafc;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.learnai-tips h5 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.learnai-tips ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.learnai-tips li {
+  font-size: 13px;
+  color: #4a5568;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .learnai-tutor-interface {
+    width: calc(100vw - 40px);
+    right: 20px;
+    left: 20px;
+    max-height: calc(100vh - 40px);
+  }
+  
+  .learnai-feature-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .learnai-stats {
+    grid-template-columns: 1fr;
+  }
+}

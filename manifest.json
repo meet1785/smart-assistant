@@ -12,7 +12,9 @@
   
   "host_permissions": [
     "https://leetcode.com/*",
-    "https://www.youtube.com/*"
+    "https://www.youtube.com/*",
+    "https://*/*",
+    "http://*/*"
   ],
   
   "background": {
@@ -29,13 +31,24 @@
       "matches": ["https://www.youtube.com/*"],
       "js": ["dist/youtube-content.js"],
       "css": ["dist/styles.css"]
+    },
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "js": ["dist/general-content.js"],
+      "css": ["dist/styles.css"],
+      "exclude_matches": [
+        "https://leetcode.com/*",
+        "https://www.youtube.com/*",
+        "https://google.com/*",
+        "https://www.google.com/*"
+      ]
     }
   ],
   
   "web_accessible_resources": [
     {
       "resources": ["dist/*"],
-      "matches": ["https://leetcode.com/*", "https://www.youtube.com/*"]
+      "matches": ["https://leetcode.com/*", "https://www.youtube.com/*", "https://*/*", "http://*/*"]
     }
   ],
   
