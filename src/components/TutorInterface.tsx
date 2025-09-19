@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GeminiResponse, TutorRequest, Achievement, Quiz, VideoSection } from '../types/index';
+import EnhancedStudyDashboard from './EnhancedStudyDashboard';
+import SmartNotesComponent from './SmartNotesComponent';
+import CodeAnalyzerComponent from './CodeAnalyzerComponent';
+import VoiceAssistantComponent from './VoiceAssistantComponent';
 
 interface TutorInterfaceProps {
   request: TutorRequest;
@@ -11,12 +15,16 @@ export const TutorInterface: React.FC<TutorInterfaceProps> = ({ request, onClose
   const [currentQuestion, setCurrentQuestion] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'chat' | 'features' | 'progress'>('chat');
+  const [activeTab, setActiveTab] = useState<'chat' | 'features' | 'progress' | 'dashboard' | 'notes' | 'analyzer' | 'voice'>('chat');
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [progress, setProgress] = useState<any>(null);
   const [videoSections, setVideoSections] = useState<VideoSection[]>([]);
   const [currentQuiz, setCurrentQuiz] = useState<Quiz | null>(null);
   const [videoSummary, setVideoSummary] = useState<string>('');
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+  const [showAnalyzer, setShowAnalyzer] = useState(false);
+  const [showVoice, setShowVoice] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -356,6 +364,30 @@ export const TutorInterface: React.FC<TutorInterfaceProps> = ({ request, onClose
           onClick={() => setActiveTab('progress')}
         >
           📊 Progress
+        </button>
+        <button 
+          className="learnai-tab learnai-enhanced-tab"
+          onClick={() => setShowDashboard(true)}
+        >
+          📈 Dashboard
+        </button>
+        <button 
+          className="learnai-tab learnai-enhanced-tab"
+          onClick={() => setShowNotes(true)}
+        >
+          📝 Notes
+        </button>
+        <button 
+          className="learnai-tab learnai-enhanced-tab"
+          onClick={() => setShowAnalyzer(true)}
+        >
+          🔬 Analyzer
+        </button>
+        <button 
+          className="learnai-tab learnai-enhanced-tab"
+          onClick={() => setShowVoice(true)}
+        >
+          🎤 Voice
         </button>
       </div>
 
@@ -715,6 +747,38 @@ export const TutorInterface: React.FC<TutorInterfaceProps> = ({ request, onClose
             </ul>
           </div>
         </div>
+      )}
+
+      {/* Enhanced Components */}
+      {showDashboard && (
+        <EnhancedStudyDashboard onClose={() => setShowDashboard(false)} />
+      )}
+
+      {showNotes && (
+        <SmartNotesComponent 
+          onClose={() => setShowNotes(false)}
+          initialContent={request.type === 'leetcode' ? (request.context as any).selectedCode : ''}
+          sourceUrl={request.type === 'youtube' ? (request.context as any).url : undefined}
+          sourceType={request.type === 'general' ? 'article' : request.type}
+        />
+      )}
+
+      {showAnalyzer && (
+        <CodeAnalyzerComponent 
+          onClose={() => setShowAnalyzer(false)}
+          initialCode={request.type === 'leetcode' ? (request.context as any).selectedCode : ''}
+          language={request.type === 'leetcode' ? (request.context as any).language : 'javascript'}
+        />
+      )}
+
+      {showVoice && (
+        <VoiceAssistantComponent 
+          onClose={() => setShowVoice(false)}
+          onVoiceQuery={(query) => {
+            setCurrentQuestion(query);
+            handleAskQuestion();
+          }}
+        />
       )}
     </div>
   );

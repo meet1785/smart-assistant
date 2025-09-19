@@ -248,21 +248,30 @@ Make questions engaging and educational. Respond only with valid JSON.`;
         startTime: 0,
         endTime: 60,
         summary: 'Video introduction and overview',
-        keyPoints: ['Main topic introduction']
+        keyPoints: ['Main topic introduction'],
+        difficulty: 'beginner' as const,
+        concepts: ['introduction'],
+        relatedSections: []
       },
       {
         title: 'Main Content',
         startTime: 60,
-        endTime: 300,
-        summary: 'Core learning content',
-        keyPoints: ['Key concepts', 'Important details']
+        endTime: 180,
+        summary: 'Core content and concepts',
+        keyPoints: ['Key concepts', 'Important details'],
+        difficulty: 'intermediate' as const,
+        concepts: ['main concepts'],
+        relatedSections: []
       },
       {
         title: 'Conclusion',
-        startTime: 300,
-        endTime: 360,
-        summary: 'Summary and takeaways',
-        keyPoints: ['Key takeaways', 'Next steps']
+        startTime: 180,
+        endTime: 240,
+        summary: 'Summary and final thoughts',
+        keyPoints: ['Key takeaways', 'Next steps'],
+        difficulty: 'beginner' as const,
+        concepts: ['summary'],
+        relatedSections: []
       }
     ];
   }

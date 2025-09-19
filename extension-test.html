@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Testing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007cba;
+        }
+        .leetcode-section {
+            border-left-color: #ffa116;
+        }
+        .youtube-section {
+            border-left-color: #ff0000;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        .test-button {
+            background: #007cba;
+            color: white;
+            border: none;    
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #005a8b;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎓 LearnAI Extension Test Page</h1>
+    <p>This page is designed to test all features of the LearnAI Chrome extension.</p>
+
+    <div class="test-section">
+        <h2>Extension Installation Test</h2>
+        <p>1. Load the extension in Chrome by going to <code>chrome://extensions/</code></p>
+        <p>2. Enable "Developer mode" in the top right</p>
+        <p>3. Click "Load unpacked" and select the <code>/workspaces/smart-assistant/dist</code> folder</p>
+        <p>4. The LearnAI extension should appear in your extensions list</p>
+        <div id="extension-status" class="status">Extension detection: Checking...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>Popup Test</h2>
+        <p>Click the LearnAI extension icon in your browser toolbar. You should see:</p>
+        <ul>
+            <li>✅ API key status showing "API key is configured ✓"</li>
+            <li>✅ Extension ready message</li>
+            <li>✅ Usage instructions</li>
+        </ul>
+    </div>
+
+    <div class="test-section leetcode-section">
+        <h2>LeetCode Simulation Test</h2>
+        <p>This simulates a LeetCode problem page to test the tutoring features:</p>
+        
+        <h3>Problem: Two Sum</h3>
+        <p><strong>Difficulty:</strong> Easy</p>
+        <p><strong>Description:</strong> Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+        
+        <div class="code-block">
+def twoSum(nums, target):
+    # Your solution here
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            if nums[i] + nums[j] == target:
+                return [i, j]
+    return []
+        </div>
+        
+        <p>Select some code above and right-click to test the context menu options:</p>
+        <ul>
+            <li>🤔 Get Socratic Hints</li>
+            <li>🚀 Explain Approach</li>
+            <li>🧪 Suggest Test Cases</li>
+            <li>🐛 Debug This Code</li>
+        </ul>
+        
+        <button class="test-button" onclick="testLeetCodeFeature('approach')">Test Approach Helper</button>
+        <button class="test-button" onclick="testLeetCodeFeature('hints')">Test Hints</button>
+        <button class="test-button" onclick="testLeetCodeFeature('testcases')">Test Cases</button>
+        
+        <div id="leetcode-results"></div>
+    </div>
+
+    <div class="test-section youtube-section">
+        <h2>YouTube Video Simulation</h2>
+        <p>This simulates a YouTube educational video to test video enhancement features:</p>
+        
+        <h3>Video: "Introduction to Machine Learning"</h3>
+        <p><strong>Duration:</strong> 15:30</p>
+        <p><strong>Description:</strong> This video covers the basics of machine learning, including supervised and unsupervised learning algorithms.</p>
+        
+        <p>Sample transcript excerpt:</p>
+        <div class="code-block">
+Machine learning is a subset of artificial intelligence that enables computers to learn and make decisions from data without being explicitly programmed. There are several types of machine learning: supervised learning, where we train models on labeled data; unsupervised learning, where we find patterns in unlabeled data; and reinforcement learning, where agents learn through interaction with an environment.
+        </div>
+        
+        <p>Test the YouTube features:</p>
+        <button class="test-button" onclick="testYouTubeFeature('summary')">Generate Summary</button>
+        <button class="test-button" onclick="testYouTubeFeature('quiz')">Create Quiz</button>
+        <button class="test-button" onclick="testYouTubeFeature('sections')">Smart Sections</button>
+        
+        <div id="youtube-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>General Content Test</h2>
+        <p>This tests the AI tutor on general web content:</p>
+        
+        <div class="code-block">
+Artificial intelligence (AI) is intelligence demonstrated by machines, as opposed to natural intelligence displayed by animals including humans. AI research has been defined as the field of study of intelligent agents, which refers to any system that perceives its environment and takes actions that maximize its chance of achieving its goals.
+        </div>
+        
+        <p>Select the text above and test general tutoring features:</p>
+        <button class="test-button" onclick="testGeneralContent()">Ask AI Tutor</button>
+        
+        <div id="general-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>API Integration Status</h2>
+        <div id="api-status" class="status">Testing API connection...</div>
+        <button class="test-button" onclick="testApiConnection()">Test API Connection</button>
+    </div>
+
+    <script>
+        // Test extension presence
+        function checkExtension() {
+            const statusDiv = document.getElementById('extension-status');
+            
+            // Try to detect if extension content scripts are loaded
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                statusDiv.textContent = 'Extension API detected ✅';
+                statusDiv.className = 'status success';
+            } else {
+                statusDiv.textContent = 'Extension API not detected. Make sure the extension is loaded.';
+                statusDiv.className = 'status error';
+            }
+        }
+
+        // Test LeetCode features
+        function testLeetCodeFeature(feature) {
+            const resultsDiv = document.getElementById('leetcode-results');
+            resultsDiv.innerHTML = `<div class="status">Testing ${feature} feature...</div>`;
+            
+            // Simulate sending a message to the extension
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                const testRequest = {
+                    action: 'generateTutorResponse',
+                    data: {
+                        type: 'leetcode',
+                        requestedFeature: feature,
+                        context: {
+                            title: 'Two Sum',
+                            difficulty: 'Easy',
+                            description: 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.',
+                            selectedCode: 'def twoSum(nums, target):\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] + nums[j] == target:\n                return [i, j]\n    return []',
+                            language: 'python'
+                        },
+                        userQuery: `Help me understand the ${feature} for this Two Sum problem.`
+                    }
+                };
+                
+                chrome.runtime.sendMessage(testRequest, (response) => {
+                    if (response && response.success) {
+                        resultsDiv.innerHTML = `
+                            <div class="status success">
+                                <strong>${feature} test successful!</strong><br>
+                                Response type: ${response.data.type}<br>
+                                Content: ${response.data.content.substring(0, 200)}...
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div class="status error">
+                                ${feature} test failed: ${response ? response.error : 'No response'}
+                            </div>
+                        `;
+                    }
+                });
+            } else {
+                resultsDiv.innerHTML = '<div class="status error">Extension not detected. Please load the extension first.</div>';
+            }
+        }
+
+        // Test YouTube features
+        function testYouTubeFeature(feature) {
+            const resultsDiv = document.getElementById('youtube-results');
+            resultsDiv.innerHTML = `<div class="status">Testing ${feature} feature...</div>`;
+            
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                const testRequest = {
+                    action: 'generateTutorResponse',
+                    data: {
+                        type: 'youtube',
+                        requestedFeature: feature,
+                        context: {
+                            title: 'Introduction to Machine Learning',
+                            selectedText: 'Machine learning is a subset of artificial intelligence...',
+                            timestamp: 120,
+                            transcript: 'Machine learning is a subset of artificial intelligence that enables computers to learn and make decisions from data without being explicitly programmed.'
+                        },
+                        userQuery: `Help me ${feature} this machine learning video content.`
+                    }
+                };
+                
+                chrome.runtime.sendMessage(testRequest, (response) => {
+                    if (response && response.success) {
+                        resultsDiv.innerHTML = `
+                            <div class="status success">
+                                <strong>${feature} test successful!</strong><br>
+                                Response type: ${response.data.type}<br>
+                                Content: ${response.data.content.substring(0, 200)}...
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div class="status error">
+                                ${feature} test failed: ${response ? response.error : 'No response'}
+                            </div>
+                        `;
+                    }
+                });
+            } else {
+                resultsDiv.innerHTML = '<div class="status error">Extension not detected. Please load the extension first.</div>';
+            }
+        }
+
+        // Test general content
+        function testGeneralContent() {
+            const resultsDiv = document.getElementById('general-results');
+            resultsDiv.innerHTML = '<div class="status">Testing general content tutoring...</div>';
+            
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                const testRequest = {
+                    action: 'generateTutorResponse',
+                    data: {
+                        type: 'general',
+                        context: {
+                            title: 'AI Testing Page',
+                            url: window.location.href,
+                            selectedText: 'Artificial intelligence (AI) is intelligence demonstrated by machines, as opposed to natural intelligence displayed by animals including humans.',
+                            pageContent: document.body.textContent
+                        },
+                        userQuery: 'Can you help me understand what artificial intelligence is and how it differs from human intelligence?'
+                    }
+                };
+                
+                chrome.runtime.sendMessage(testRequest, (response) => {
+                    if (response && response.success) {
+                        resultsDiv.innerHTML = `
+                            <div class="status success">
+                                <strong>General content test successful!</strong><br>
+                                Response type: ${response.data.type}<br>
+                                Content: ${response.data.content.substring(0, 200)}...
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div class="status error">
+                                General content test failed: ${response ? response.error : 'No response'}
+                            </div>
+                        `;
+                    }
+                });
+            } else {
+                resultsDiv.innerHTML = '<div class="status error">Extension not detected. Please load the extension first.</div>';
+            }
+        }
+
+        // Test API connection
+        function testApiConnection() {
+            const statusDiv = document.getElementById('api-status');
+            statusDiv.innerHTML = '<div class="status">Testing API connection...</div>';
+            
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                chrome.runtime.sendMessage({ action: 'getApiKeyStatus' }, (response) => {
+                    if (response && response.hasApiKey) {
+                        statusDiv.innerHTML = '<div class="status success">✅ API key configured and ready!</div>';
+                    } else {
+                        statusDiv.innerHTML = '<div class="status error">❌ API key not configured. Please set it through the extension popup.</div>';
+                    }
+                });
+            } else {
+                statusDiv.innerHTML = '<div class="status error">Extension not detected. Cannot test API connection.</div>';
+            }
+        }
+
+        // Initialize tests when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            checkExtension();
+            testApiConnection();
+        });
+    </script>
+</body>
+</html>
