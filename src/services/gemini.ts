@@ -1,21 +1,30 @@
 import { GeminiResponse, TutorRequest } from '../types/index';
+import { config } from '../config/config';
+import { SecureKeyManager } from './secureKeyManager';
 
 export class GeminiService {
-  private apiKey: string;
-  private baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+  private baseUrl = config.GEMINI_BASE_URL;
+  private keyManager = SecureKeyManager.getInstance();
 
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
+  constructor() {
+    // No API key in constructor - retrieved securely when needed
   }
 
   async generateSocraticResponse(request: TutorRequest): Promise<GeminiResponse> {
     try {
+      // Get API key securely
+      const apiKey = await this.keyManager.getApiKey();
+      if (!apiKey) {
+        throw new Error('API key not configured. Please set it in the extension popup.');
+      }
+      
       const prompt = this.buildSocraticPrompt(request);
       
-      const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
+      const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'X-goog-api-key': apiKey,
         },
         body: JSON.stringify({
           contents: [{
@@ -24,16 +33,18 @@ export class GeminiService {
             }]
           }],
           generationConfig: {
-            temperature: 0.7,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
+            temperature: config.DEFAULT_TEMPERATURE,
+            topK: config.DEFAULT_TOP_K,
+            topP: config.DEFAULT_TOP_P,
+            maxOutputTokens: config.DEFAULT_MAX_TOKENS,
           }
         })
       });
 
       if (!response.ok) {
-        throw new Error(`Gemini API error: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Gemini API error response:', errorText);
+        throw new Error(`Gemini API error: ${response.status} - ${errorText}`);
       }
 
       const data = await response.json();
@@ -44,7 +55,7 @@ export class GeminiService {
       console.error('Gemini API error:', error);
       return {
         type: 'error',
-        content: 'Sorry, I encountered an error. Please try again.',
+        content: 'Sorry, I encountered an error. Please try again. ' + (error as Error).message,
       };
     }
   }

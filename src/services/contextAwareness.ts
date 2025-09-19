@@ -103,11 +103,20 @@ export class ContextAwarenessService {
     let prompt = this.buildInstantHelpPrompt(context, selectedText, helpType);
 
     try {
-      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent', {
+      // Get API key through the secure key manager
+      const { SecureKeyManager } = await import('./secureKeyManager');
+      const keyManager = SecureKeyManager.getInstance();
+      const apiKey = await keyManager.getApiKey();
+      
+      if (!apiKey) {
+        throw new Error('API key not configured');
+      }
+
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-goog-api-key': (this.geminiService as any).apiKey
+          'X-goog-api-key': apiKey
         },
         body: JSON.stringify({
           contents: [{
@@ -144,11 +153,20 @@ export class ContextAwarenessService {
     const prompt = this.buildCodingHintsPrompt(context, selectedCode, errorMessage);
     
     try {
-      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent', {
+      // Get API key through the secure key manager
+      const { SecureKeyManager } = await import('./secureKeyManager');
+      const keyManager = SecureKeyManager.getInstance();
+      const apiKey = await keyManager.getApiKey();
+      
+      if (!apiKey) {
+        throw new Error('API key not configured');
+      }
+
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-goog-api-key': (this.geminiService as any).apiKey
+          'X-goog-api-key': apiKey
         },
         body: JSON.stringify({
           contents: [{
@@ -190,11 +208,20 @@ export class ContextAwarenessService {
     const prompt = this.buildErrorExplanationPrompt(errorMessage, context, relatedCode);
     
     try {
-      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent', {
+      // Get API key through the secure key manager
+      const { SecureKeyManager } = await import('./secureKeyManager');
+      const keyManager = SecureKeyManager.getInstance();
+      const apiKey = await keyManager.getApiKey();
+      
+      if (!apiKey) {
+        throw new Error('API key not configured');
+      }
+
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-goog-api-key': (this.geminiService as any).apiKey
+          'X-goog-api-key': apiKey
         },
         body: JSON.stringify({
           contents: [{
