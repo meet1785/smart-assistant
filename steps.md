@@ -1,50 +1,5 @@
-# LearnAI Extension - Complete Build Guide
-*How to Build a Production-Ready AI Learning Assistant Chrome Extension*
 
-## 🎯 Mark Zuckerberg's Approach: Security First, Scale Smart
-
-> "The biggest risk is not taking any risk... But in building systems that handle user data, security isn't negotiable." - MZ Philosophy Applied
-
-### Core Principles
-1. **Security First**: Never ship vulnerable code
-2. **Scalable Architecture**: Build for millions of users
-3. **Data-Driven**: Measure everything, improve iteratively
-4. **User Value**: Every feature must create real learning value
-
----
-
-## 🔒 CRITICAL SECURITY REQUIREMENTS
-
-### ⚠️ IMMEDIATE SECURITY FIX REQUIRED
-**Current Vulnerability**: API key hardcoded in source code
-```typescript
-// ❌ NEVER DO THIS IN PRODUCTION
-export const config = {
-  GEMINI_API_KEY: 'AIzaSyC4xAN7n2EalbUwGZ-1Ah1Zq0xAg1xxKNE', // EXPOSED!
-}
-```
-
-**✅ Security-First Solution**:
-```typescript
-// Secure API key management
-export const config = {
-  GEMINI_API_KEY: '', // Empty in source code
-  // API key managed through extension popup
-}
-```
-
-### Security Checklist
-- [ ] API keys stored only in `chrome.storage.sync` 
-- [ ] No sensitive data in source code
-- [ ] CSP headers prevent XSS attacks
-- [ ] Minimal permissions principle
-- [ ] Input sanitization on all user data
-- [ ] HTTPS-only API communications
-- [ ] Error messages don't leak sensitive info
-
----
-
-## 🏗️ STEP-BY-STEP BUILD PROCESS
+  # 🏗️ STEP-BY-STEP BUILD PROCESS
 
 ### Phase 1: Environment Setup (Security Foundation)
 
