@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LearnAI Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 350px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: #f8fafc;
+    }
+
+    .popup-container {
+      background: white;
+      border-radius: 0;
+      overflow: hidden;
+    }
+
+    .popup-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .popup-header h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .popup-header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .popup-content {
+      padding: 20px;
+    }
+
+    .setup-section h3,
+    .ready-section h3 {
+      color: #2d3748;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .setup-section p {
+      color: #4a5568;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .setup-section ol {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+
+    .setup-section li {
+      margin-bottom: 8px;
+      color: #4a5568;
+    }
+
+    .link-button {
+      background: none;
+      border: none;
+      color: #667eea;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: inherit;
+      padding: 0;
+    }
+
+    .link-button:hover {
+      color: #5a67d8;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-group label {
+      font-weight: 500;
+      color: #2d3748;
+      font-size: 14px;
+    }
+
+    .api-key-input {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .api-key-input:focus {
+      border-color: #667eea;
+    }
+
+    .save-button {
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .save-button:hover:not(:disabled) {
+      background: #5a67d8;
+    }
+
+    .save-button:disabled {
+      background: #cbd5e0;
+      cursor: not-allowed;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f0fff4;
+      border: 1px solid #9ae6b4;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 20px;
+    }
+
+    .status-icon {
+      font-size: 18px;
+    }
+
+    .usage-info h3 {
+      margin-bottom: 16px;
+    }
+
+    .platform-info {
+      margin-bottom: 16px;
+      background: #f8fafc;
+      border-radius: 6px;
+      padding: 12px;
+    }
+
+    .platform-info h4 {
+      color: #2d3748;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .platform-info ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .platform-info li {
+      color: #4a5568;
+      font-size: 13px;
+      margin-bottom: 4px;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .platform-info li:before {
+      content: "•";
+      color: #667eea;
+      position: absolute;
+      left: 0;
+    }
+
+    kbd {
+      background: #edf2f7;
+      border: 1px solid #cbd5e0;
+      border-radius: 3px;
+      padding: 2px 4px;
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    .philosophy {
+      background: #fffbf0;
+      border: 1px solid #f6e05e;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 16px;
+    }
+
+    .philosophy h4 {
+      color: #744210;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .philosophy p {
+      color: #744210;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .reconfigure-button {
+      background: #e2e8f0;
+      color: #4a5568;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: background-color 0.2s;
+    }
+
+    .reconfigure-button:hover {
+      background: #cbd5e0;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+
+    .message.success {
+      background: #f0fff4;
+      color: #22543d;
+      border: 1px solid #9ae6b4;
+    }
+
+    .message.error {
+      background: #fed7d7;
+      color: #c53030;
+      border: 1px solid #feb2b2;
+    }
+
+    .popup-footer {
+      background: #f8fafc;
+      padding: 12px 20px;
+      text-align: center;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .popup-footer p {
+      color: #718096;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
