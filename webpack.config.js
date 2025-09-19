@@ -8,6 +8,7 @@ module.exports = {
     background: './src/background/background.ts',
     'leetcode-content': './src/content/leetcode-content.tsx',
     'youtube-content': './src/content/youtube-content.tsx',
+    'general-content': './src/content/general-content.tsx',
     popup: './src/popup/popup.tsx'
   },
   output: {
