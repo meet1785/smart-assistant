@@ -28,3 +28,19 @@ export type { AlertProps } from './Alert';
 
 export { default as Skeleton, SkeletonCard, SkeletonList, SkeletonText } from './Skeleton';
 export type { SkeletonProps } from './Skeleton';
+
+// New comprehensive UI components for Leeco AI Clone
+export { default as Select } from './Select';
+export type { SelectProps, SelectOption } from './Select';
+
+export { default as Switch } from './Switch';
+export type { SwitchProps } from './Switch';
+
+export { default as Textarea } from './Textarea';
+export type { TextareaProps } from './Textarea';
+
+export { default as Tooltip } from './Tooltip';
+export type { TooltipProps } from './Tooltip';
+
+export { default as ScrollArea } from './ScrollArea';
+export type { ScrollAreaProps } from './ScrollArea';
