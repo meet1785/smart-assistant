@@ -8,6 +8,8 @@ class YouTubeIntegration {
   private tutorRoot: any = null;
   private isActive = false;
   private lastVideoId = '';
+  private videoData: YouTubeContext | null = null;
+  private transcriptCache: string | null = null;
 
   constructor() {
     this.init();
@@ -23,8 +25,8 @@ class YouTubeIntegration {
   }
 
   private setupYouTubeIntegration() {
-    // Add floating trigger button
-    this.addFloatingButton();
+    // Add enhanced floating button with quick actions
+    this.addEnhancedFloatingButton();
     
     // Listen for text selection
     this.setupTextSelectionHandler();
@@ -34,15 +36,89 @@ class YouTubeIntegration {
     
     // Setup keyboard shortcuts
     this.setupKeyboardShortcuts();
+    
+    // Enhanced video analysis
+    this.setupVideoAnalysis();
+    
+    // Transcript extraction
+    this.extractTranscriptData();
   }
 
-  private addFloatingButton() {
-    const button = document.createElement('button');
-    button.className = 'learnai-youtube-trigger';
-    button.innerHTML = '🎓 Ask Leeco AI';
-    button.onclick = () => this.startTutorSession();
+  private addEnhancedFloatingButton() {
+    // Remove existing button if present
+    const existingButton = document.querySelector('.learnai-youtube-trigger');
+    if (existingButton) {
+      existingButton.remove();
+    }
     
-    document.body.appendChild(button);
+    // Create enhanced button container
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'leeco-ai-youtube-container';
+    buttonContainer.style.cssText = `
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.3s ease;
+    `;
+
+    // Main button
+    const mainButton = document.createElement('button');
+    mainButton.className = 'learnai-youtube-trigger';
+    mainButton.innerHTML = '🎓 Ask Leeco AI';
+    mainButton.onclick = () => this.startTutorSession();
+
+    // Quick action buttons
+    const summaryButton = document.createElement('button');
+    summaryButton.innerHTML = '📝 Summary';
+    summaryButton.onclick = () => this.getVideoSummary();
+    
+    const quizButton = document.createElement('button');
+    quizButton.innerHTML = '❓ Quiz';
+    quizButton.onclick = () => this.generateQuiz();
+    
+    const sectionsButton = document.createElement('button');
+    sectionsButton.innerHTML = '📑 Sections';
+    sectionsButton.onclick = () => this.getVideoSections();
+
+    // Style all buttons
+    [mainButton, summaryButton, quizButton, sectionsButton].forEach((btn, index) => {
+      btn.style.cssText = `
+        background: ${index === 0 ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : '#ff4757'};
+        color: white;
+        border: none;
+        padding: ${index === 0 ? '12px 16px' : '10px 12px'};
+        border-radius: 8px;
+        font-size: ${index === 0 ? '14px' : '12px'};
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        min-width: ${index === 0 ? '140px' : '100px'};
+        text-align: center;
+      `;
+      
+      btn.addEventListener('mouseover', () => {
+        btn.style.transform = 'translateX(-4px)';
+        btn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+      });
+      
+      btn.addEventListener('mouseout', () => {
+        btn.style.transform = 'translateX(0)';
+        btn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+      });
+    });
+
+    buttonContainer.appendChild(mainButton);
+    buttonContainer.appendChild(summaryButton);
+    buttonContainer.appendChild(quizButton);
+    buttonContainer.appendChild(sectionsButton);
+    
+    document.body.appendChild(buttonContainer);
   }
 
   private setupTextSelectionHandler() {
@@ -214,6 +290,129 @@ class YouTubeIntegration {
     );
 
     this.isActive = true;
+  }
+
+  // Enhanced YouTube Methods for Leeco AI Clone functionality
+  private async getVideoSummary() {
+    const context = this.videoData || this.extractVideoContext();
+    if (!context) {
+      alert('Could not extract video information for summary.');
+      return;
+    }
+
+    // Add transcript if available
+    if (this.transcriptCache) {
+      context.transcript = this.transcriptCache;
+    }
+
+    const request: TutorRequest = {
+      type: 'youtube',
+      context,
+      requestedFeature: 'summary',
+      userQuery: 'Please provide a comprehensive summary of this video with key insights and takeaways'
+    };
+
+    this.showTutorInterface(request);
+  }
+
+  private async generateQuiz() {
+    const context = this.videoData || this.extractVideoContext();
+    if (!context) {
+      alert('Could not extract video information for quiz generation.');
+      return;
+    }
+
+    // Add transcript if available
+    if (this.transcriptCache) {
+      context.transcript = this.transcriptCache;
+    }
+
+    const request: TutorRequest = {
+      type: 'youtube',
+      context,
+      requestedFeature: 'quiz',
+      userQuery: 'Please create an interactive quiz based on this video content with multiple choice and open-ended questions'
+    };
+
+    this.showTutorInterface(request);
+  }
+
+  private async getVideoSections() {
+    const context = this.videoData || this.extractVideoContext();
+    if (!context) {
+      alert('Could not extract video information for section analysis.');
+      return;
+    }
+
+    // Add transcript if available
+    if (this.transcriptCache) {
+      context.transcript = this.transcriptCache;
+    }
+
+    const request: TutorRequest = {
+      type: 'youtube',
+      context,
+      requestedFeature: 'sections',
+      userQuery: 'Please analyze this video and identify key sections with timestamps and topics covered'
+    };
+
+    this.showTutorInterface(request);
+  }
+
+  private setupVideoAnalysis() {
+    // Monitor for video changes and extract data
+    const observer = new MutationObserver(() => {
+      const currentVideoId = this.getCurrentVideoId();
+      if (currentVideoId && currentVideoId !== this.lastVideoId) {
+        this.lastVideoId = currentVideoId;
+        this.videoData = this.extractVideoContext();
+        this.transcriptCache = null; // Reset transcript cache
+        this.extractTranscriptData(); // Re-extract for new video
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  private getCurrentVideoId(): string | null {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('v');
+  }
+
+  private async extractTranscriptData() {
+    try {
+      // Wait for video to load
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Try to find transcript or captions
+      const transcriptButton = document.querySelector('[aria-label*="transcript"]') ||
+                              document.querySelector('[aria-label*="Transcript"]') ||
+                              document.querySelector('button[aria-label*="Show transcript"]');
+      
+      if (transcriptButton) {
+        // Click to open transcript
+        (transcriptButton as HTMLElement).click();
+        
+        // Wait for transcript to load
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Extract transcript text
+        const transcriptElements = document.querySelectorAll('ytd-transcript-segment-renderer .segment-text');
+        if (transcriptElements.length > 0) {
+          const transcriptText = Array.from(transcriptElements)
+            .map(el => el.textContent?.trim())
+            .filter(text => text)
+            .join(' ');
+          
+          this.transcriptCache = transcriptText.slice(0, 3000); // Limit size
+        }
+      }
+    } catch (error) {
+      console.log('Could not extract transcript:', error);
+    }
   }
 
   private closeTutor() {
