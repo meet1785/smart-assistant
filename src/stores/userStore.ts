@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 export interface UserPreferences {
   theme: 'light' | 'dark' | 'auto';
   language: string;
-  tutorStyle: 'socratic' | 'direct' | 'encouraging';
+  assistanceStyle: 'direct' | 'progressive' | 'comprehensive';
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   platforms: {
     leetcode: boolean;
@@ -15,6 +15,12 @@ export interface UserPreferences {
     achievements: boolean;
     reminders: boolean;
     progress: boolean;
+  };
+  features: {
+    voiceInteraction: boolean;
+    realTimeHints: boolean;
+    mockInterviews: boolean;
+    learningPaths: boolean;
   };
 }
 
@@ -47,7 +53,7 @@ export interface UserState {
 const defaultPreferences: UserPreferences = {
   theme: 'auto',
   language: 'en',
-  tutorStyle: 'socratic',
+  assistanceStyle: 'comprehensive',
   difficulty: 'intermediate',
   platforms: {
     leetcode: true,
@@ -58,6 +64,12 @@ const defaultPreferences: UserPreferences = {
     achievements: true,
     reminders: true,
     progress: true
+  },
+  features: {
+    voiceInteraction: true,
+    realTimeHints: true,
+    mockInterviews: true,
+    learningPaths: true
   }
 };
 
@@ -135,7 +147,7 @@ export const useUserStore = create<UserState>()(
       })
     }),
     {
-      name: 'learnai-user',
+      name: 'leeco-ai-user',
       partialize: (state) => ({
         profile: state.profile,
         isAuthenticated: state.isAuthenticated,

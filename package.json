@@ -1,7 +1,7 @@
 {
-  "name": "learnai-extension",
+  "name": "leeco-ai-clone",
   "version": "1.0.0",
-  "description": "AI-powered Socratic learning assistant browser extension",
+  "description": "Complete Chrome extension clone of Leeco AI - AI-powered learning companion for coding interviews and educational content",
   "scripts": {
     "build": "webpack --mode=production",
     "dev": "webpack --mode=development --watch",

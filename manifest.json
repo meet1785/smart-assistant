@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "LearnAI - Socratic Learning Assistant",
+  "name": "Leeco AI Clone - Learning Companion",
   "version": "1.0.0",
-  "description": "AI-powered Socratic tutor for LeetCode problems and YouTube videos using Google Gemini",
+  "description": "Complete Leeco AI clone - AI-powered learning companion for coding interview preparation and educational content consumption",
   
   "permissions": [
     "activeTab",
@@ -54,7 +54,7 @@
   
   "action": {
     "default_popup": "dist/popup.html",
-    "default_title": "LearnAI Assistant"
+    "default_title": "Leeco AI Clone - Learning Companion"
   },
   
   "icons": {

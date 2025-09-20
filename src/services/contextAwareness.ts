@@ -74,7 +74,7 @@ export class ContextAwarenessService {
     const prompt = this.buildBlogChatPrompt(context, selectedText, userQuery);
     
     try {
-      const response = await this.geminiService.generateSocraticResponse({
+      const response = await this.geminiService.generateResponse({
         type: 'general',
         context: { ...context, selectedText },
         userQuery,

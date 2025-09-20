@@ -27,7 +27,7 @@ async function testGeminiAPI() {
   };
   
   try {
-    const response = await geminiService.generateSocraticResponse(leetcodeRequest);
+    const response = await geminiService.generateResponse(leetcodeRequest);
     console.log('✓ LeetCode response received:', {
       type: response.type,
       contentLength: response.content.length,
@@ -52,7 +52,7 @@ async function testGeminiAPI() {
   };
   
   try {
-    const response = await geminiService.generateSocraticResponse(youtubeRequest);
+    const response = await geminiService.generateResponse(youtubeRequest);
     console.log('✓ YouTube response received:', {
       type: response.type,
       contentLength: response.content.length,
@@ -77,7 +77,7 @@ async function testGeminiAPI() {
   };
   
   try {
-    const response = await geminiService.generateSocraticResponse(generalRequest);
+    const response = await geminiService.generateResponse(generalRequest);
     console.log('✓ General content response received:', {
       type: response.type,
       contentLength: response.content.length,

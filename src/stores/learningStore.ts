@@ -193,7 +193,7 @@ export const useLearningStore = create<LearningState>()(
       })
     }),
     {
-      name: 'learnai-learning',
+      name: 'leeco-ai-learning',
       partialize: (state) => ({
         recentSessions: state.recentSessions,
         goals: state.goals,

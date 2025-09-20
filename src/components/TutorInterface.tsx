@@ -92,7 +92,7 @@ export const TutorInterface: React.FC<TutorInterfaceProps> = ({ request, onClose
 
     // Add user question to conversation
     const userResponse: GeminiResponse = {
-      type: 'question',
+      type: 'hint',
       content: `You: ${userQuestion}`
     };
     setResponses(prev => [...prev, userResponse]);
@@ -130,9 +130,10 @@ export const TutorInterface: React.FC<TutorInterfaceProps> = ({ request, onClose
 
   const getResponseIcon = (type: GeminiResponse['type']) => {
     switch (type) {
-      case 'question': return '❓';
       case 'hint': return '💡';
-      case 'followup': return '🔍';
+      case 'explanation': return '📚';
+      case 'solution': return '✅';
+      case 'analysis': return '🔍';
       case 'encouragement': return '🌟';
       case 'error': return '⚠️';
       default: return '🤖';
