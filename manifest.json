@@ -47,7 +47,7 @@
   
   "web_accessible_resources": [
     {
-      "resources": ["dist/*"],
+      "resources": ["dist/*", "demo.html", "test-integration.html"],
       "matches": ["https://leetcode.com/*", "https://www.youtube.com/*", "https://*/*", "http://*/*"]
     }
   ],

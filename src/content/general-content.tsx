@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { TutorInterface } from '../components/TutorInterface';
+import { EnhancedTutorInterface } from '../components/EnhancedTutorInterface';
 import { GeneralContext, TutorRequest } from '../types/index';
 import '../components/styles.css';
 
@@ -298,7 +298,7 @@ class GeneralContentIntegration {
     // Create React root and render the interface
     this.tutorRoot = createRoot(container);
     this.tutorRoot.render(
-      <TutorInterface 
+      <EnhancedTutorInterface 
         request={request} 
         onClose={() => this.closeTutor()} 
       />

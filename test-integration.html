@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnAI Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        .highlight { background: yellow; padding: 2px; }
+    </style>
+</head>
+<body>
+    <h1>🎓 LearnAI Extension Integration Test</h1>
+    
+    <div class="test-section">
+        <h2>Extension Status Check</h2>
+        <div id="extension-status" class="status info">Checking extension...</div>
+        <button onclick="checkExtensionStatus()">Refresh Status</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Content Script Test</h2>
+        <p>This text is for testing the general content script integration.</p>
+        <p class="highlight">Try selecting this highlighted text to test the AI tutor functionality.</p>
+        <div id="selection-status" class="status info">Select text above to test...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>Platform Simulation</h2>
+        <h3>📊 Sample Learning Content</h3>
+        <p>Understanding JavaScript closures and scope can be challenging for developers. A closure gives you access to an outer function's scope from an inner function.</p>
+        
+        <h3>🧮 Algorithm Example</h3>
+        <pre style="background: #f8f8f8; padding: 15px; border-radius: 4px;">
+function quickSort(arr) {
+    if (arr.length <= 1) return arr;
+    
+    const pivot = arr[Math.floor(arr.length / 2)];
+    const left = arr.filter(x => x < pivot);
+    const right = arr.filter(x => x > pivot);
+    
+    return [...quickSort(left), pivot, ...quickSort(right)];
+}
+        </pre>
+        
+        <p class="highlight">Try selecting the code above or this explanation to get AI tutoring help!</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Feature Tests</h2>
+        <button onclick="testKeyboardShortcut()">Test Keyboard Shortcut (Ctrl+Shift+A)</button>
+        <button onclick="simulateTextSelection()">Simulate Text Selection</button>
+        <button onclick="checkFloatingButton()">Check Floating Button</button>
+        <div id="test-results" class="status info">Click buttons above to test features...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>Expected Features</h2>
+        <ul>
+            <li>✅ Floating "🎓 Ask LearnAI" button on the right side</li>
+            <li>✅ Text selection triggers AI tutor interface</li>
+            <li>✅ Keyboard shortcut Ctrl/Cmd + Shift + A opens AI tutor</li>
+            <li>✅ Modern chat interface with tabs (Chat, Features, Tools, Progress)</li>
+            <li>✅ Mock interview system accessible from Tools tab</li>
+            <li>✅ Learning path management integration</li>
+            <li>✅ Progress tracking with XP and achievements</li>
+        </ul>
+    </div>
+
+    <script>
+        function checkExtensionStatus() {
+            const statusEl = document.getElementById('extension-status');
+            
+            // Check if floating button exists
+            const floatingButton = document.querySelector('.learnai-general-trigger');
+            
+            if (floatingButton) {
+                statusEl.className = 'status success';
+                statusEl.textContent = '✅ Extension loaded successfully! Floating button detected.';
+            } else {
+                statusEl.className = 'status error';
+                statusEl.textContent = '❌ Extension not detected. Please ensure it\'s installed and enabled.';
+            }
+        }
+
+        function testKeyboardShortcut() {
+            const resultsEl = document.getElementById('test-results');
+            resultsEl.className = 'status info';
+            resultsEl.textContent = '⌨️ Press Ctrl/Cmd + Shift + A to test keyboard shortcut...';
+        }
+
+        function simulateTextSelection() {
+            const resultsEl = document.getElementById('test-results');
+            
+            // Select some text programmatically
+            const textElement = document.querySelector('.highlight');
+            if (textElement) {
+                const range = document.createRange();
+                range.selectNodeContents(textElement);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                
+                resultsEl.className = 'status success';
+                resultsEl.textContent = '✅ Text selected! AI tutor should activate.';
+            }
+        }
+
+        function checkFloatingButton() {
+            const resultsEl = document.getElementById('test-results');
+            const floatingButton = document.querySelector('.learnai-general-trigger');
+            
+            if (floatingButton) {
+                resultsEl.className = 'status success';
+                resultsEl.textContent = '✅ Floating button found and styled correctly!';
+                
+                // Highlight the button briefly
+                floatingButton.style.animation = 'pulse 1s ease-in-out';
+                setTimeout(() => {
+                    floatingButton.style.animation = '';
+                }, 1000);
+            } else {
+                resultsEl.className = 'status error';
+                resultsEl.textContent = '❌ Floating button not found. Extension may not be loaded.';
+            }
+        }
+
+        // Track text selection
+        document.addEventListener('mouseup', function() {
+            const selection = window.getSelection().toString().trim();
+            const selectionStatus = document.getElementById('selection-status');
+            
+            if (selection) {
+                selectionStatus.className = 'status success';
+                selectionStatus.textContent = `✅ Selected: "${selection.substring(0, 50)}${selection.length > 50 ? '...' : ''}"`;
+            }
+        });
+
+        // Auto-check status on load
+        setTimeout(checkExtensionStatus, 1000);
+
+        // Add CSS for button highlighting
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

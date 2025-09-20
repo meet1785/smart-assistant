@@ -1,3 +1,58 @@
+/* Import Tailwind CSS */
+@import '../styles/globals.css';
+
+/* Platform Integration Trigger Buttons */
+.learnai-leetcode-trigger,
+.learnai-youtube-trigger,
+.learnai-general-trigger {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  transition: all 0.3s ease;
+  z-index: 9999;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.learnai-leetcode-trigger:hover,
+.learnai-youtube-trigger:hover,
+.learnai-general-trigger:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+}
+
+.learnai-leetcode-trigger:active,
+.learnai-youtube-trigger:active,
+.learnai-general-trigger:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* LeetCode specific positioning */
+.learnai-leetcode-trigger {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transform: none;
+  font-size: 12px;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+/* Container for the tutor interface */
+#learnai-tutor-container {
+  z-index: 10000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 /* Enhanced Components Styles */
 .dashboard-container,
 .smart-notes-container,
