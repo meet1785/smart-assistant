@@ -159,7 +159,7 @@ export const InterviewSimulator: React.FC<InterviewSimulatorProps> = ({
         content: generateInterviewerResponse(message),
         timestamp: Date.now(),
         metadata: {
-          responseType: 'question',
+          responseType: 'hint',
           nextSteps: ['Think about the approach', 'Consider edge cases', 'Start coding when ready']
         }
       };

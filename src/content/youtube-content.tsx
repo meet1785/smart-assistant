@@ -39,7 +39,7 @@ class YouTubeIntegration {
   private addFloatingButton() {
     const button = document.createElement('button');
     button.className = 'learnai-youtube-trigger';
-    button.innerHTML = '🎓 Ask LearnAI';
+    button.innerHTML = '🎓 Ask Leeco AI';
     button.onclick = () => this.startTutorSession();
     
     document.body.appendChild(button);

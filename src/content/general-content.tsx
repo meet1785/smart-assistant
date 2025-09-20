@@ -54,7 +54,7 @@ class GeneralContentIntegration {
 
     const button = document.createElement('button');
     button.className = 'learnai-general-trigger';
-    button.innerHTML = '🎓 LearnAI Help';
+    button.innerHTML = '🎓 Leeco AI Help';
     button.onclick = () => this.startTutorSession();
     
     // Style the button
