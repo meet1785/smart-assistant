@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnAI Extension Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        .demo-section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .demo-section h2 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .demo-content {
+            line-height: 1.6;
+            color: #555;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .feature-card {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .feature-card h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .test-text {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+            font-style: italic;
+        }
+        .instructions {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+        }
+        .code-block {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        .problem-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 LearnAI Extension Demo & Testing Page</h1>
+            <p>This page demonstrates the comprehensive features of the LearnAI Chrome Extension</p>
+            <p><strong>Try selecting text below and using the AI tutor features!</strong></p>
+        </div>
+
+        <div class="instructions">
+            <h3>🚀 How to Test the Extension</h3>
+            <ol>
+                <li><strong>Install the Extension:</strong> Load the extension in Chrome from the <code>dist/</code> folder</li>
+                <li><strong>Set up API Key:</strong> Click the extension icon and enter your Gemini API key</li>
+                <li><strong>Test Integration:</strong> Look for the floating "🎓 Ask LearnAI" button on the right side</li>
+                <li><strong>Select Text:</strong> Highlight any text on this page to get AI tutoring</li>
+                <li><strong>Use Keyboard Shortcut:</strong> Press <kbd>Ctrl/Cmd + Shift + A</kbd> for quick access</li>
+            </ol>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎯 Core Learning Features</h2>
+            <div class="feature-list">
+                <div class="feature-card">
+                    <h3>💬 AI Chat Interface</h3>
+                    <p>Advanced messaging system with conversation history, smart suggestions, and context-aware responses. The AI maintains the Socratic method of teaching through questions.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎤 Mock Interview System</h3>
+                    <p>Complete interview simulation with technical, behavioral, and full-stack modes. Features real-time timer, code editor, and AI interviewer feedback.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🗺️ Learning Path Management</h3>
+                    <p>Create personalized learning roadmaps with goal setting, milestone tracking, and comprehensive progress analytics.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Progress Analytics</h3>
+                    <p>Gamified learning with XP points, levels, achievement badges, and detailed statistics on your learning journey.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🔢 LeetCode Problem Example</h2>
+            <div class="problem-section">
+                <h3>Two Sum Problem</h3>
+                <p><strong>Difficulty:</strong> Easy</p>
+                <p><strong>Description:</strong> Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+                
+                <div class="test-text">
+                    <strong>Try selecting this text:</strong> "I'm struggling with understanding the approach for this problem. Should I use nested loops or is there a more efficient way using hash maps?"
+                </div>
+
+                <div class="code-block">
+def twoSum(nums, target):
+    # Brute force approach - O(n²)
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            if nums[i] + nums[j] == target:
+                return [i, j]
+    return []
+                </div>
+
+                <div class="test-text">
+                    <strong>Select this for analysis:</strong> "This code works but has O(n²) time complexity. How can I optimize this to O(n) using a hash map approach?"
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>📺 YouTube Learning Content</h2>
+            <div class="demo-content">
+                <h3>Understanding Data Structures and Algorithms</h3>
+                <p>This section simulates YouTube video content for testing the video integration features.</p>
+                
+                <div class="test-text">
+                    <strong>Select this video description text:</strong> "In this comprehensive tutorial, we'll explore fundamental data structures including arrays, linked lists, stacks, queues, trees, and graphs. We'll also cover essential algorithms like sorting, searching, and graph traversal techniques."
+                </div>
+
+                <p><strong>Key Topics Covered:</strong></p>
+                <ul>
+                    <li>Array manipulation and optimization techniques</li>
+                    <li>Linked list operations and memory management</li>
+                    <li>Stack and queue implementations with real-world applications</li>
+                    <li>Binary trees, BSTs, and tree traversal algorithms</li>
+                    <li>Graph algorithms: DFS, BFS, and shortest path algorithms</li>
+                </ul>
+
+                <div class="test-text">
+                    <strong>Try selecting this for quiz generation:</strong> "Binary Search Trees (BST) are a fundamental data structure where each node has at most two children, and for any node, all values in the left subtree are less than the node's value, and all values in the right subtree are greater."
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🧠 General Learning Content</h2>
+            <div class="demo-content">
+                <h3>System Design Principles</h3>
+                <p>Understanding scalable system architecture and design patterns.</p>
+
+                <div class="test-text">
+                    <strong>Select for system design help:</strong> "When designing a distributed system, we need to consider factors like scalability, availability, consistency, partition tolerance, and performance. The CAP theorem states that a distributed system can guarantee at most two of these three properties: Consistency, Availability, and Partition tolerance."
+                </div>
+
+                <h4>Microservices Architecture</h4>
+                <p>Microservices break down applications into smaller, independent services that communicate via APIs.</p>
+
+                <div class="test-text">
+                    <strong>Try selecting this complex topic:</strong> "Load balancing distributes incoming requests across multiple servers to ensure no single server becomes overwhelmed. Common strategies include round-robin, least connections, and weighted distribution based on server capacity."
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎮 Interactive Features to Test</h2>
+            <div class="feature-list">
+                <div class="feature-card">
+                    <h3>💭 Chat Interface</h3>
+                    <p>Test the advanced chat system with message history, typing indicators, and smart suggestions. Try asking complex questions!</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎯 Tools Integration</h3>
+                    <p>Access mock interviews and learning path management directly from the Tools tab in the AI interface.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📈 Progress Tracking</h3>
+                    <p>View your XP, level progression, achievements, and learning statistics in the Progress tab.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔧 Platform Features</h3>
+                    <p>Explore platform-specific features like code analysis for programming content and video summaries for educational videos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>🧪 Testing Checklist</h3>
+            <ul>
+                <li>✅ Extension loads without errors</li>
+                <li>✅ Floating button appears on the right side</li>
+                <li>✅ Text selection triggers contextual help</li>
+                <li>✅ Keyboard shortcuts work (Ctrl/Cmd + Shift + A)</li>
+                <li>✅ AI chat interface opens and responds</li>
+                <li>✅ Tabs switch properly (Chat, Features, Tools, Progress)</li>
+                <li>✅ Mock interview system launches from Tools tab</li>
+                <li>✅ Learning path manager opens and functions</li>
+                <li>✅ Progress tracking shows XP and achievements</li>
+                <li>✅ All components are styled correctly</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎉 Success Indicators</h2>
+            <p>If the extension is working correctly, you should see:</p>
+            <ul>
+                <li><strong>Visual Integration:</strong> Floating button with gradient styling</li>
+                <li><strong>Responsive Interface:</strong> Draggable, resizable panels with modern design</li>
+                <li><strong>Advanced Features:</strong> Mock interviews, learning paths, and progress tracking</li>
+                <li><strong>Smart AI:</strong> Context-aware responses using Socratic method</li>
+                <li><strong>Gamification:</strong> XP points, levels, and achievement system</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity for testing
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('LearnAI Demo Page Loaded');
+            console.log('Extension should inject content script and show floating button');
+            
+            // Simulate some interactions for testing
+            document.addEventListener('mouseup', function() {
+                const selection = window.getSelection().toString();
+                if (selection.length > 20) {
+                    console.log('Text selected for AI analysis:', selection.substring(0, 50) + '...');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
