@@ -1,5 +1,5 @@
 export interface GeminiResponse {
-  type: 'question' | 'hint' | 'followup' | 'encouragement' | 'error';
+  type: 'hint' | 'explanation' | 'solution' | 'analysis' | 'encouragement' | 'error';
   content: string;
   context?: string;
   nextSteps?: string[];

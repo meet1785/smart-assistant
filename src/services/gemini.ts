@@ -10,7 +10,7 @@ export class GeminiService {
     // No API key in constructor - retrieved securely when needed
   }
 
-  async generateSocraticResponse(request: TutorRequest): Promise<GeminiResponse> {
+  async generateResponse(request: TutorRequest): Promise<GeminiResponse> {
     try {
       // Get API key securely
       const apiKey = await this.keyManager.getApiKey();
@@ -18,7 +18,7 @@ export class GeminiService {
         throw new Error('API key not configured. Please set it in the extension popup.');
       }
       
-      const prompt = this.buildSocraticPrompt(request);
+      const prompt = this.buildLeecoPrompt(request);
       
       const response = await fetch(this.baseUrl, {
         method: 'POST',
@@ -60,16 +60,17 @@ export class GeminiService {
     }
   }
 
-  private buildSocraticPrompt(request: TutorRequest): string {
-    const baseInstructions = `You are a Socratic tutor. Your role is to guide learning through questions and hints, NOT to provide direct answers. Always respond in JSON format with the structure: {"type": "question|hint|followup|encouragement", "content": "your response", "nextSteps": ["step1", "step2"]}.
+  private buildLeecoPrompt(request: TutorRequest): string {
+    const baseInstructions = `You are Leeco AI, an advanced AI learning companion designed to provide direct, helpful assistance for coding interview preparation and educational content consumption. Your role is to provide clear explanations, progressive hints, debugging assistance, and comprehensive learning support. Always respond in JSON format with the structure: {"type": "hint|explanation|solution|analysis|encouragement", "content": "your response", "nextSteps": ["step1", "step2"]}.
 
-Key principles:
-- Ask thought-provoking questions that lead to understanding
-- Provide hints that guide thinking without giving away solutions  
-- Encourage problem-solving and critical thinking
-- Break complex problems into smaller, manageable parts
-- Celebrate progress and learning milestones
-- Guide students to discover solutions themselves`;
+Key capabilities:
+- Provide clear, direct explanations and solutions when requested
+- Offer progressive hints that build toward complete understanding
+- Debug code issues and suggest improvements
+- Analyze time/space complexity with detailed explanations
+- Generate interview questions and provide feedback
+- Summarize educational content effectively
+- Create interactive learning experiences`;
 
     if (request.type === 'leetcode') {
       const problem = request.context as any;
@@ -77,46 +78,46 @@ Key principles:
       
       // Add specific guidance based on requested feature
       if (request.requestedFeature === 'approach') {
-        contextualInstructions = `\nFocus on helping the user develop a problem-solving approach:
-- Guide them to understand the problem requirements
-- Help them identify patterns and similar problems
-- Lead them to consider different algorithmic approaches
-- Ask questions about time and space complexity`;
+        contextualInstructions = `\nProvide comprehensive approach guidance:
+- Explain the optimal algorithmic approach clearly
+- Discuss alternative solutions and trade-offs
+- Provide step-by-step problem-solving methodology
+- Include time and space complexity analysis`;
       } else if (request.requestedFeature === 'testcases') {
-        contextualInstructions = `\nHelp the user understand test cases:
-- Guide them to think about edge cases
-- Ask questions about input boundaries
-- Help them trace through example inputs
-- Lead them to consider corner cases`;
+        contextualInstructions = `\nHelp analyze and create test cases:
+- Explain how to approach test case creation
+- Identify edge cases and boundary conditions
+- Provide example test cases with explanations
+- Debug failing test cases with specific guidance`;
       } else if (request.requestedFeature === 'errors') {
-        contextualInstructions = `\nHelp the user understand and debug errors:
-- Guide them to identify the error source
-- Ask questions about what the error message means
-- Help them trace through their logic
-- Lead them to find the fix themselves`;
+        contextualInstructions = `\nProvide debugging assistance:
+- Analyze the error and identify the root cause
+- Explain what the error message means
+- Provide specific steps to fix the issue
+- Suggest best practices to avoid similar errors`;
       } else if (request.requestedFeature === 'hints') {
         contextualInstructions = `\nProvide progressive hints:
-- Start with high-level conceptual hints
-- Guide toward the right direction without giving away the solution
-- Ask questions that unlock the next step
-- Build understanding step by step`;
+- Start with conceptual hints about the approach
+- Progress to implementation-specific guidance
+- Build understanding step by step
+- Provide complete guidance when needed`;
       }
 
       return `${baseInstructions}
 
-Context: LeetCode Problem
+Context: LeetCode Problem Analysis
 Title: ${problem.title}
 Difficulty: ${problem.difficulty}
 Description: ${problem.description}
-${problem.selectedCode ? `Selected Code: ${problem.selectedCode}` : ''}
+${problem.selectedCode ? `Current Code: ${problem.selectedCode}` : ''}
 ${problem.language ? `Language: ${problem.language}` : ''}
 ${request.userQuery ? `User Question: ${request.userQuery}` : ''}${contextualInstructions}
 
-Help the user understand this coding problem through Socratic questioning. Focus on:
-- Problem comprehension and approach development
-- Algorithm design thinking and pattern recognition
-- Code structure, logic, and debugging
-- Edge cases, optimization, and best practices
+Provide comprehensive assistance for this coding problem, focusing on:
+- Clear problem analysis and optimal solutions
+- Implementation guidance and code review
+- Debugging and optimization suggestions
+- Interview preparation and complexity analysis
 
 Respond in JSON format.`;
     } else if (request.type === 'youtube') {
@@ -124,39 +125,39 @@ Respond in JSON format.`;
       let contextualInstructions = '';
       
       if (request.requestedFeature === 'quiz') {
-        contextualInstructions = `\nHelp the user prepare for or review quiz content:
-- Ask questions that test understanding of key concepts
-- Guide them to think about practical applications
-- Help them connect ideas from the video
-- Lead them to deeper insights about the material`;
+        contextualInstructions = `\nGenerate interactive quiz content:
+- Create multiple-choice and open-ended questions based on the video
+- Focus on key concepts and practical applications
+- Provide detailed explanations for correct answers
+- Include difficulty levels from basic to advanced`;
       } else if (request.requestedFeature === 'summary') {
-        contextualInstructions = `\nHelp the user create meaningful summaries:
-- Guide them to identify the main points
-- Ask questions about key takeaways
-- Help them organize information logically
-- Lead them to synthesize complex ideas`;
+        contextualInstructions = `\nProvide comprehensive video summarization:
+- Extract and organize the main points effectively
+- Highlight key takeaways and actionable insights
+- Structure information in logical, digestible segments
+- Include timestamps for important sections when available`;
       } else if (request.requestedFeature === 'sections') {
-        contextualInstructions = `\nHelp the user understand video structure:
-- Guide them to identify natural topic transitions
-- Ask questions about how ideas connect
-- Help them see the logical flow of information
-- Lead them to recognize learning objectives`;
+        contextualInstructions = `\nAnalyze and segment video content:
+- Identify natural topic transitions and sections
+- Explain how different concepts connect and build upon each other
+- Provide clear section headings and descriptions
+- Highlight the learning progression throughout the video`;
       }
 
       return `${baseInstructions}
 
-Context: YouTube Video Learning
+Context: YouTube Educational Content Analysis
 Video: ${youtube.title}
 ${youtube.selectedText ? `Selected Text: ${youtube.selectedText}` : ''}
-${youtube.timestamp ? `Timestamp: ${youtube.timestamp}s` : ''}
-${youtube.transcript ? `Transcript excerpt: ${youtube.transcript.substring(0, 500)}...` : ''}
+${youtube.timestamp ? `Current Timestamp: ${youtube.timestamp}s` : ''}
+${youtube.transcript ? `Transcript Excerpt: ${youtube.transcript.substring(0, 500)}...` : ''}
 ${request.userQuery ? `User Question: ${request.userQuery}` : ''}${contextualInstructions}
 
-Help the user understand this video content through Socratic questioning. Focus on:
-- Key concepts and deeper understanding
-- Connections to prior knowledge and real-world applications
-- Critical analysis and evaluation of the content
-- Practical application of learned concepts
+Provide comprehensive assistance for this educational video content, focusing on:
+- Clear explanations and content analysis
+- Interactive learning features (quizzes, summaries)
+- Practical applications and real-world connections
+- Enhanced comprehension and retention
 
 Respond in JSON format.`;
     } else {
@@ -164,18 +165,18 @@ Respond in JSON format.`;
       const general = request.context as any;
       return `${baseInstructions}
 
-Context: General Web Content
+Context: General Educational Content
 Page: ${general.title}
 URL: ${general.url}
 ${general.selectedText ? `Selected Text: ${general.selectedText}` : ''}
-${general.pageContent ? `Content excerpt: ${general.pageContent.substring(0, 500)}...` : ''}
+${general.pageContent ? `Content Excerpt: ${general.pageContent.substring(0, 500)}...` : ''}
 ${request.userQuery ? `User Question: ${request.userQuery}` : ''}
 
-Help the user understand this web content through Socratic questioning. Focus on:
-- Comprehension of key ideas and concepts
-- Critical thinking about the information presented
-- Connections to broader knowledge and context
-- Practical applications and implications
+Provide comprehensive assistance for this web content, focusing on:
+- Clear explanations and concept clarification
+- Practical applications and examples
+- Connections to broader knowledge domains
+- Learning enhancement and skill development
 
 Respond in JSON format.`;
     }
@@ -188,21 +189,21 @@ Respond in JSON format.`;
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
         return {
-          type: parsed.type || 'question',
+          type: parsed.type || 'hint',
           content: parsed.content || text,
           nextSteps: parsed.nextSteps || []
         };
       }
       
-      // Fallback: create a structured response
+      // Fallback: create a structured response for direct assistance
       return {
-        type: 'question',
+        type: 'hint',
         content: text,
         nextSteps: []
       };
     } catch (error) {
       return {
-        type: 'question',
+        type: 'hint',
         content: text,
         nextSteps: []
       };

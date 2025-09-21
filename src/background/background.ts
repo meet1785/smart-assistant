@@ -151,7 +151,7 @@ class BackgroundService {
     }
 
     try {
-      const response = await this.geminiService.generateSocraticResponse(tutorRequest);
+      const response = await this.geminiService.generateResponse(tutorRequest);
       
       // Update session if it exists
       const sessionId = this.generateSessionId(tutorRequest);
@@ -520,7 +520,7 @@ Please respond in JSON format:
   "suggestedTags": ["tag1", "tag2", "tag3"]
 }`;
 
-      const response = await this.geminiService.generateSocraticResponse({
+      const response = await this.geminiService.generateResponse({
         type: 'general',
         context: {
           title: 'Note Title Generation',
@@ -580,7 +580,7 @@ Please respond in JSON format:
   ]
 }`;
 
-      const response = await this.geminiService.generateSocraticResponse({
+      const response = await this.geminiService.generateResponse({
         type: 'general',
         context: {
           title: data.title || 'Note Enhancement',
@@ -628,7 +628,7 @@ Please respond in JSON format as an array:
   }
 ]`;
 
-      const response = await this.geminiService.generateSocraticResponse({
+      const response = await this.geminiService.generateResponse({
         type: 'general',
         context: {
           title: 'Flashcard Generation',
@@ -724,7 +724,7 @@ Please respond in JSON format:
   ]
 }`;
 
-      const response = await this.geminiService.generateSocraticResponse({
+      const response = await this.geminiService.generateResponse({
         type: 'leetcode',
         context: {
           title: 'Code Analysis',
@@ -767,7 +767,7 @@ Please respond in JSON format:
       const result = await chrome.storage.local.get(['voice_history']);
       const history = result.voice_history || [];
       
-      const response = await this.geminiService.generateSocraticResponse({
+      const response = await this.geminiService.generateResponse({
         type: 'general',
         context: {
           title: 'Voice Command',
