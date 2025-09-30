@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnAI Extension Test Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            line-height: 1.8;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            background: #f8fafc;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .highlight:hover {
+            background: #fcd34d;
+        }
+        
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #10b981;
+            transition: transform 0.2s;
+        }
+        
+        .feature-list li:hover {
+            transform: translateX(5px);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .educational-content {
+            line-height: 2;
+            font-size: 1.1rem;
+        }
+        
+        .tip {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .tip strong {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 LearnAI Extension Test Page</h1>
+        <p class="subtitle">Test the AI-powered learning companion features</p>
+        
+        <div class="test-section">
+            <h2>📋 Extension Status</h2>
+            <p>If the LearnAI extension is loaded correctly, you should see:</p>
+            <ul class="feature-list">
+                <li>✅ A floating "🎓 Ask LearnAI" button on the right side of the page</li>
+                <li>✅ Text selection triggers the AI tutor interface</li>
+                <li>✅ Keyboard shortcut <strong>Ctrl/Cmd + Shift + A</strong> opens the tutor</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🧪 Test Text Selection</h2>
+            <p class="educational-content">
+                <span class="highlight">Try selecting this highlighted text</span> to test the AI tutor functionality. 
+                The extension should detect the selection and offer to help you understand it better.
+            </p>
+            <p>
+                Here's some <span class="highlight">educational content about algorithms</span>: 
+                A binary search algorithm works by repeatedly dividing a sorted array in half, 
+                comparing the target value to the middle element, and eliminating half of the 
+                remaining elements each time. This gives it a time complexity of O(log n).
+            </p>
+        </div>
+
+        <div class="test-section">
+            <h2>💻 Test Code Selection</h2>
+            <p>Try selecting this code snippet to test code-specific features:</p>
+            <div class="code-block">
+function binarySearch(arr, target) {
+    let left = 0;
+    let right = arr.length - 1;
+    
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+        
+        if (arr[mid] === target) {
+            return mid;
+        } else if (arr[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    
+    return -1;
+}
+            </div>
+            <p>Select the code above and ask the AI tutor to explain how it works!</p>
+        </div>
+
+        <div class="test-section">
+            <h2>🎯 Expected Features</h2>
+            <div>
+                <span class="status-badge status-success">✓ Learning Progress Tracking</span>
+                <span class="status-badge status-success">✓ Context Awareness</span>
+                <span class="status-badge status-success">✓ AI Tutoring</span>
+                <span class="status-badge status-success">✓ Code Analysis</span>
+                <span class="status-badge status-success">✓ Smart Notes</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 Keyboard Shortcuts</h2>
+            <ul class="feature-list">
+                <li><strong>Ctrl/Cmd + Shift + A</strong> - Open AI Tutor</li>
+                <li><strong>Text Selection</strong> - Automatic tutor popup</li>
+                <li><strong>Click Floating Button</strong> - Start general tutoring session</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <strong>💡 Pro Tip:</strong> Make sure you've configured your Google Gemini API key 
+            in the extension popup before trying to use the AI features. Click the extension 
+            icon in your browser toolbar to set it up!
+        </div>
+
+        <div class="test-section">
+            <h2>📚 Test Educational Content</h2>
+            <p class="educational-content">
+                <strong>Understanding Data Structures:</strong> A stack is a Last-In-First-Out (LIFO) 
+                data structure where elements are added and removed from the same end. Think of it 
+                like a stack of plates - you can only add or remove plates from the top. Common 
+                operations include push (add), pop (remove), and peek (view top element). Stacks are 
+                used in function call management, undo mechanisms, and expression evaluation.
+            </p>
+            <p class="educational-content">
+                <strong>Algorithm Complexity:</strong> Time complexity describes how the runtime of 
+                an algorithm grows with input size. <span class="highlight">O(1) is constant time</span>, 
+                <span class="highlight">O(log n) is logarithmic</span>, 
+                <span class="highlight">O(n) is linear</span>, and 
+                <span class="highlight">O(n²) is quadratic</span>. Understanding complexity helps 
+                you choose efficient algorithms for your problems.
+            </p>
+        </div>
+
+        <div class="test-section">
+            <h2>✅ Verification Checklist</h2>
+            <ol class="feature-list">
+                <li>Extension icon appears in Chrome toolbar</li>
+                <li>Clicking icon opens popup with API key configuration</li>
+                <li>Floating button visible on right side of page</li>
+                <li>Selecting text shows tutor interface</li>
+                <li>Keyboard shortcut works (Ctrl/Cmd + Shift + A)</li>
+                <li>AI responses are generated when API key is configured</li>
+                <li>No console errors in browser developer tools</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2>🐛 Troubleshooting</h2>
+            <p><strong>If the extension isn't working:</strong></p>
+            <ul class="feature-list">
+                <li>Refresh this page after loading the extension</li>
+                <li>Check that the extension is enabled in chrome://extensions/</li>
+                <li>Verify your API key is configured in the extension popup</li>
+                <li>Check the browser console (F12) for any error messages</li>
+                <li>Make sure you're using the latest version of Chrome</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Simple script to verify extension is loaded
+        console.log('Test page loaded. Extension should inject content scripts.');
+        
+        // Listen for extension messages
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'LEARNAI_LOADED') {
+                console.log('✅ LearnAI extension detected!');
+            }
+        });
+        
+        // Test text selection detection
+        document.addEventListener('selectionchange', () => {
+            const selection = window.getSelection();
+            if (selection && selection.toString().length > 10) {
+                console.log('Text selected:', selection.toString().substring(0, 50) + '...');
+            }
+        });
+    </script>
+</body>
+</html>
