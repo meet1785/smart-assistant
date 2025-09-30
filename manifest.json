@@ -18,24 +18,24 @@
   ],
   
   "background": {
-    "service_worker": "dist/background.js"
+    "service_worker": "background.js"
   },
   
   "content_scripts": [
     {
       "matches": ["https://leetcode.com/*"],
-      "js": ["dist/leetcode-content.js"],
-      "css": ["dist/styles.css"]
+      "js": ["leetcode-content.js"],
+      "css": ["styles.css"]
     },
     {
       "matches": ["https://www.youtube.com/*"],
-      "js": ["dist/youtube-content.js"],
-      "css": ["dist/styles.css"]
+      "js": ["youtube-content.js"],
+      "css": ["styles.css"]
     },
     {
       "matches": ["https://*/*", "http://*/*"],
-      "js": ["dist/general-content.js"],
-      "css": ["dist/styles.css"],
+      "js": ["general-content.js"],
+      "css": ["styles.css"],
       "exclude_matches": [
         "https://leetcode.com/*",
         "https://www.youtube.com/*",
@@ -47,13 +47,13 @@
   
   "web_accessible_resources": [
     {
-      "resources": ["dist/*", "demo.html", "test-integration.html"],
+      "resources": ["*.js", "*.css", "*.html", "icons/*"],
       "matches": ["https://leetcode.com/*", "https://www.youtube.com/*", "https://*/*", "http://*/*"]
     }
   ],
   
   "action": {
-    "default_popup": "dist/popup.html",
+    "default_popup": "popup.html",
     "default_title": "Leeco AI Clone - Learning Companion"
   },
   
