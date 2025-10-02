@@ -411,7 +411,7 @@ class YouTubeIntegration {
         }
       }
     } catch (error) {
-      console.log('Could not extract transcript:', error);
+      // Transcript extraction failed - not critical, continue without it
     }
   }
 
