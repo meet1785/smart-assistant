@@ -5,6 +5,7 @@ import { ChatInterface, ChatMessage } from './ai';
 import { Button, Tabs, TabsList, TabsTrigger, TabsContent, Badge, Alert, Progress } from './ui';
 import { InterviewSimulator } from '../features/interview';
 import { LearningPathManager } from '../features/learning';
+import { NotesManager } from './NotesManager';
 import { useUserStore, useLearningStore } from '../stores';
 
 interface EnhancedTutorInterfaceProps {
@@ -22,6 +23,7 @@ export const EnhancedTutorInterface: React.FC<EnhancedTutorInterfaceProps> = ({
   const [activeTab, setActiveTab] = useState('chat');
   const [showInterview, setShowInterview] = useState(false);
   const [showLearningPath, setShowLearningPath] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
   
   // Store hooks
   const { profile, incrementExperience } = useUserStore();
@@ -324,7 +326,7 @@ export const EnhancedTutorInterface: React.FC<EnhancedTutorInterfaceProps> = ({
               )}
 
               {/* Common features */}
-              <Button onClick={() => {/* TODO: Implement */}} className="h-20 flex flex-col justify-center">
+              <Button onClick={() => setShowNotes(true)} className="h-20 flex flex-col justify-center">
                 <span className="text-2xl mb-1">📚</span>
                 <span>Smart Notes</span>
               </Button>
@@ -427,6 +429,15 @@ export const EnhancedTutorInterface: React.FC<EnhancedTutorInterfaceProps> = ({
       <LearningPathManager
         isOpen={showLearningPath}
         onClose={() => setShowLearningPath(false)}
+      />
+
+      <NotesManager
+        isOpen={showNotes}
+        onClose={() => setShowNotes(false)}
+        prefilledNote={{
+          platform: request.type,
+          sourceUrl: window.location.href
+        }}
       />
     </FloatingPanel>
   );
