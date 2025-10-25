@@ -554,53 +554,45 @@ Please respond in JSON format:
 
   private async enhanceNote(data: any) {
     if (!this.geminiService) {
-      return { success: false, error: 'AI service not available' };
+      return { 
+        type: 'error',
+        content: 'AI service not available. Please configure your API key.'
+      };
     }
 
     try {
-      const prompt = `Enhance these study notes by:
-1. Improving structure and organization
-2. Adding key insights and connections
-3. Suggesting related concepts
-4. Creating potential flashcard questions
+      const prompt = `Enhance and improve these study notes by:
+1. Improving structure and clarity
+2. Adding key insights and elaborations
+3. Organizing information better
+4. Maintaining the original meaning while making it more comprehensive
 
-Original content: ${data.content}
-Source: ${data.sourceType || 'general'}
+Original notes:
+${data.content}
 
-Please respond in JSON format:
-{
-  "content": "Enhanced note content with better structure",
-  "suggestedTags": ["tag1", "tag2"],
-  "flashcards": [
-    {
-      "front": "Question",
-      "back": "Answer",
-      "type": "concept"
-    }
-  ]
-}`;
+Topic: ${data.title || 'Study Notes'}
+Platform: ${data.platform || 'general'}
+
+Please provide the enhanced version of the notes with better structure, clarity, and additional helpful insights that aid learning and retention. Keep the same style but make it more comprehensive and well-organized.`;
 
       const response = await this.geminiService.generateResponse({
         type: 'general',
         context: {
           title: data.title || 'Note Enhancement',
-          url: data.sourceUrl || '',
+          url: '',
           selectedText: data.content,
           pageContent: data.content
         },
         userQuery: prompt
       });
 
-      const jsonMatch = response.content.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]);
-        return { success: true, data: parsed };
-      }
-
-      return { success: false, error: 'Failed to parse enhancement' };
+      return response;
     } catch (error) {
       console.error('Error enhancing note:', error);
-      return { success: false, error: 'Failed to enhance note' };
+      return { 
+        type: 'error',
+        content: 'Failed to enhance note. Please try again.'
+      };
     }
   }
 
