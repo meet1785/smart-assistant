@@ -11,6 +11,26 @@
  */
 
 // ============================================
+// TEST DATA
+// ============================================
+const TEST_NOTE_CONTENT = {
+  title: 'Dynamic Programming Fundamentals',
+  content: `Dynamic Programming is an optimization technique that solves complex problems by breaking them down into simpler subproblems.
+
+Key Concepts:
+- Overlapping Subproblems: The problem can be broken down into subproblems which are reused several times
+- Optimal Substructure: An optimal solution can be constructed from optimal solutions of its subproblems
+- Memoization: Store results of expensive function calls
+
+Common DP Problems:
+- Fibonacci numbers
+- Longest Common Subsequence
+- Knapsack problem
+- Matrix Chain Multiplication`,
+  tags: ['algorithms', 'dynamic-programming', 'optimization']
+};
+
+// ============================================
 // TEST 1: Store Initialization
 // ============================================
 export const testStoreInitialization = () => {
@@ -82,24 +102,7 @@ export const testManualCreation = () => {
 export const testAIGeneration = () => {
   console.log('TEST 3: AI-Generated Flashcards from Notes');
   
-  const testNote = {
-    title: 'Dynamic Programming Fundamentals',
-    content: `Dynamic Programming is an optimization technique that solves complex problems by breaking them down into simpler subproblems. 
-    
-Key Concepts:
-- Overlapping Subproblems: The problem can be broken down into subproblems which are reused several times
-- Optimal Substructure: An optimal solution can be constructed from optimal solutions of its subproblems
-- Memoization: Store results of expensive function calls
-
-Common DP Problems:
-- Fibonacci numbers
-- Longest Common Subsequence
-- Knapsack problem
-- Matrix Chain Multiplication`,
-    tags: ['algorithms', 'dynamic-programming', 'optimization']
-  };
-  
-  console.log('Test Note:', testNote);
+  console.log('Test Note:', TEST_NOTE_CONTENT);
   
   const steps = [
     '1. Open Smart Notes (📚 button)',
