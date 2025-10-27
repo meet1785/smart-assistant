@@ -7,3 +7,6 @@ export type { LearningState, LearningSession, StudyStats } from './learningStore
 
 export { useNotesStore } from './notesStore';
 export type { NotesState, Note } from './notesStore';
+
+export { useFlashcardStore } from './flashcardStore';
+export type { FlashcardState, Flashcard, ReviewSession } from './flashcardStore';

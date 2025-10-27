@@ -6,6 +6,7 @@ import { Button, Tabs, TabsList, TabsTrigger, TabsContent, Badge, Alert, Progres
 import { InterviewSimulator } from '../features/interview';
 import { LearningPathManager } from '../features/learning';
 import { NotesManager } from './NotesManager';
+import FlashcardManager from './FlashcardManager';
 import { useUserStore, useLearningStore } from '../stores';
 
 interface EnhancedTutorInterfaceProps {
@@ -24,6 +25,7 @@ export const EnhancedTutorInterface: React.FC<EnhancedTutorInterfaceProps> = ({
   const [showInterview, setShowInterview] = useState(false);
   const [showLearningPath, setShowLearningPath] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+  const [showFlashcards, setShowFlashcards] = useState(false);
   
   // Store hooks
   const { profile, incrementExperience } = useUserStore();
@@ -363,6 +365,18 @@ export const EnhancedTutorInterface: React.FC<EnhancedTutorInterfaceProps> = ({
                   <div className="text-sm text-gray-500">Manage your learning goals and progress</div>
                 </div>
               </Button>
+              
+              <Button 
+                onClick={() => setShowFlashcards(true)}
+                className="h-16 flex items-center justify-start px-6"
+                variant="outline"
+              >
+                <span className="text-2xl mr-4">🎴</span>
+                <div className="text-left">
+                  <div className="font-medium">Flashcards</div>
+                  <div className="text-sm text-gray-500">Review with spaced repetition system</div>
+                </div>
+              </Button>
             </div>
           </TabsContent>
 
@@ -438,6 +452,11 @@ export const EnhancedTutorInterface: React.FC<EnhancedTutorInterfaceProps> = ({
           platform: request.type,
           sourceUrl: window.location.href
         }}
+      />
+
+      <FlashcardManager
+        isOpen={showFlashcards}
+        onClose={() => setShowFlashcards(false)}
       />
     </FloatingPanel>
   );

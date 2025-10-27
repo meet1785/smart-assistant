@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNotesStore, useLearningStore, Note } from '../stores';
+import { useNotesStore, useLearningStore, useFlashcardStore, Note } from '../stores';
 import { Button, Input, Textarea, Badge, Modal, Alert } from './ui';
 
 interface NotesManagerProps {
@@ -33,11 +33,13 @@ export const NotesManager: React.FC<NotesManagerProps> = ({
   } = useNotesStore();
 
   const { currentSession } = useLearningStore();
+  const { addFlashcards } = useFlashcardStore();
 
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [enhancingNoteId, setEnhancingNoteId] = useState<string | null>(null);
+  const [generatingFlashcardsId, setGeneratingFlashcardsId] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -153,6 +155,45 @@ export const NotesManager: React.FC<NotesManagerProps> = ({
       setError('Failed to enhance note. Please try again.');
     } finally {
       setEnhancingNoteId(null);
+    }
+  };
+
+  const handleGenerateFlashcards = async (note: Note) => {
+    setGeneratingFlashcardsId(note.id);
+    setError('');
+
+    try {
+      const response = await chrome.runtime.sendMessage({
+        action: 'generateFlashcards',
+        data: {
+          content: note.content,
+          tags: note.tags,
+          title: note.title
+        }
+      });
+
+      if (response.success && response.data) {
+        // Add flashcards to store
+        addFlashcards(response.data.map((card: any) => ({
+          front: card.front,
+          back: card.back,
+          type: card.type || 'concept',
+          difficulty: card.difficulty || 'medium',
+          tags: card.tags || note.tags,
+          sourceNoteId: note.id,
+          sourcePlatform: note.platform,
+          sourceUrl: note.sourceUrl
+        })));
+        
+        setSuccessMessage(`Generated ${response.data.length} flashcards!`);
+        setTimeout(() => setSuccessMessage(''), 3000);
+      } else {
+        setError('Failed to generate flashcards: ' + (response.error || 'Unknown error'));
+      }
+    } catch (error) {
+      setError('Failed to generate flashcards. Please try again.');
+    } finally {
+      setGeneratingFlashcardsId(null);
     }
   };
 
@@ -420,6 +461,15 @@ export const NotesManager: React.FC<NotesManagerProps> = ({
                         ✨ Enhance with AI
                       </Button>
                     )}
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleGenerateFlashcards(note)}
+                      loading={generatingFlashcardsId === note.id}
+                      disabled={generatingFlashcardsId === note.id}
+                    >
+                      🎴 Flashcards
+                    </Button>
                     {note.sourceUrl && (
                       <Button
                         size="sm"
