@@ -7,6 +7,7 @@ import { InterviewSimulator } from '../features/interview';
 import { LearningPathManager } from '../features/learning';
 import { NotesManager } from './NotesManager';
 import FlashcardManager from './FlashcardManager';
+import { DataExportImport } from './DataExportImport';
 import { useUserStore, useLearningStore } from '../stores';
 
 interface EnhancedTutorInterfaceProps {
@@ -26,6 +27,7 @@ export const EnhancedTutorInterface: React.FC<EnhancedTutorInterfaceProps> = ({
   const [showLearningPath, setShowLearningPath] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [showFlashcards, setShowFlashcards] = useState(false);
+  const [showDataExport, setShowDataExport] = useState(false);
   
   // Store hooks
   const { profile, incrementExperience } = useUserStore();
@@ -377,6 +379,18 @@ export const EnhancedTutorInterface: React.FC<EnhancedTutorInterfaceProps> = ({
                   <div className="text-sm text-gray-500">Review with spaced repetition system</div>
                 </div>
               </Button>
+              
+              <Button 
+                onClick={() => setShowDataExport(true)}
+                className="h-16 flex items-center justify-start px-6"
+                variant="outline"
+              >
+                <span className="text-2xl mr-4">💾</span>
+                <div className="text-left">
+                  <div className="font-medium">Backup & Restore</div>
+                  <div className="text-sm text-gray-500">Export or import your learning data</div>
+                </div>
+              </Button>
             </div>
           </TabsContent>
 
@@ -457,6 +471,11 @@ export const EnhancedTutorInterface: React.FC<EnhancedTutorInterfaceProps> = ({
       <FlashcardManager
         isOpen={showFlashcards}
         onClose={() => setShowFlashcards(false)}
+      />
+
+      <DataExportImport
+        isOpen={showDataExport}
+        onClose={() => setShowDataExport(false)}
       />
     </FloatingPanel>
   );
