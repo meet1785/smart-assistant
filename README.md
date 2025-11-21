@@ -54,6 +54,13 @@ Leeco AI Clone uses Google Gemini AI to provide direct assistance, progressive h
 - **Achievement Badges**: Unlock achievements for learning milestones
 - **Weekly Goals**: Set and track weekly learning objectives with AI insights
 
+### 💾 Data Management
+- **Backup & Restore**: Export and import all your learning data
+- **Data Portability**: Transfer your progress between devices
+- **Two Import Modes**: Merge with existing data or replace completely
+- **Secure Exports**: Optional API key inclusion with clear warnings
+- **Version Control**: Automatic version compatibility checking
+
 ## 🚀 Installation & Setup
 
 ### Prerequisites
@@ -119,6 +126,8 @@ The new Leeco AI Clone provides a comprehensive learning interface with multiple
 #### Tools Tab
 - **Mock Interview**: Launch comprehensive interview simulation with real-time feedback
 - **Learning Paths**: Access your personalized learning roadmaps with AI recommendations
+- **Flashcards**: Review using spaced repetition system for better retention
+- **Backup & Restore**: Export and import your learning data for safekeeping
 - Additional productivity tools for enhanced learning and skill development
 
 #### Progress Tab
@@ -245,6 +254,7 @@ npm run build
 - [x] **State Management**: Persistent user data and session tracking  
 - [x] **Enhanced Platform Integration**: Advanced LeetCode and YouTube features
 - [x] **Progress Analytics**: XP system, achievements, and detailed statistics
+- [x] **Data Export/Import**: Backup and restore all learning data with version control
 
 ### Coming Soon 🚧
 - [ ] **Offline Mode**: Basic tutoring without API calls
