@@ -187,7 +187,7 @@ export class DataExportService {
     return importMajor === currentMajor;
   }
 
-  private normalizeText(value: any): string {
+  private normalizeText(value: unknown): string {
     return typeof value === 'string' ? value.trim().toLowerCase() : '';
   }
 
@@ -328,6 +328,7 @@ export class DataExportService {
 
       // Import notes
       const importedNoteIdMap = new Map<string, string>();
+      const validNoteIds = new Set<string>();
       if (Array.isArray(data.notes)) {
         const notesStore = useNotesStore.getState();
 
@@ -342,6 +343,7 @@ export class DataExportService {
         const existingNoteIds = new Set(currentNotes.map(note => note.id));
         const existingNoteFingerprints = new Map<string, string>();
         currentNotes.forEach(note => {
+          validNoteIds.add(note.id);
           existingNoteFingerprints.set(this.createNoteFingerprint(note), note.id);
         });
 
@@ -372,7 +374,7 @@ export class DataExportService {
 
             const importedNoteId = typeof note.id === 'string' && note.id.trim()
               ? note.id
-              : `note_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+              : `note_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 
             notesStore.addNote({
               id: importedNoteId,
@@ -388,6 +390,7 @@ export class DataExportService {
               updatedAt: typeof note.updatedAt === 'number' ? note.updatedAt : Date.now()
             });
             existingNoteIds.add(importedNoteId);
+            validNoteIds.add(importedNoteId);
             existingNoteFingerprints.set(noteFingerprint, importedNoteId);
             if (note.id) {
               importedNoteIdMap.set(note.id, importedNoteId);
@@ -422,9 +425,11 @@ export class DataExportService {
             return;
           }
 
-          const resolvedSourceNoteId = card.sourceNoteId
-            ? (importedNoteIdMap.get(card.sourceNoteId) || card.sourceNoteId)
-            : undefined;
+          let resolvedSourceNoteId: string | undefined;
+          if (card.sourceNoteId) {
+            const mappedSourceNoteId = importedNoteIdMap.get(card.sourceNoteId) || card.sourceNoteId;
+            resolvedSourceNoteId = validNoteIds.has(mappedSourceNoteId) ? mappedSourceNoteId : undefined;
+          }
 
           const candidateCard = {
             id: card.id,

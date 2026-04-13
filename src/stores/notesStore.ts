@@ -44,7 +44,7 @@ export const useNotesStore = create<NotesState>()(
         const now = Date.now();
         const note: Note = {
           ...noteData,
-          id: noteData.id || `note_${now}_${Math.random().toString(36).substr(2, 9)}`,
+          id: noteData.id || `note_${now}_${Math.random().toString(36).substring(2, 11)}`,
           createdAt: noteData.createdAt || now,
           updatedAt: noteData.updatedAt || now,
         };

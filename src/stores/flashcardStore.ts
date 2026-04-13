@@ -111,7 +111,7 @@ export const useFlashcardStore = create<FlashcardState>()(
         const now = Date.now();
         const card: Flashcard = {
           ...cardData,
-          id: cardData.id || `card_${now}_${Math.random().toString(36).substr(2, 9)}`,
+          id: cardData.id || `card_${now}_${Math.random().toString(36).substring(2, 11)}`,
           createdAt: cardData.createdAt || now,
           nextReviewDate: cardData.nextReviewDate || now, // Due immediately for first review
           reviewCount: cardData.reviewCount ?? 0,
@@ -125,11 +125,12 @@ export const useFlashcardStore = create<FlashcardState>()(
       },
 
       addFlashcards: (cardsData) => {
-        const newCards: Flashcard[] = cardsData.map(cardData => {
-          const now = Date.now();
+        const baseNow = Date.now();
+        const newCards: Flashcard[] = cardsData.map((cardData, index) => {
+          const now = baseNow + index;
           return {
             ...cardData,
-            id: cardData.id || `card_${now}_${Math.random().toString(36).substr(2, 9)}`,
+            id: cardData.id || `card_${now}_${Math.random().toString(36).substring(2, 11)}`,
             createdAt: cardData.createdAt || now,
             nextReviewDate: cardData.nextReviewDate || now, // Due immediately for first review
             reviewCount: cardData.reviewCount ?? 0,
