@@ -37,6 +37,8 @@ export interface ImportResult {
     goalsImported: number;
     pathsImported: number;
     sessionsImported: number;
+    notesSkipped: number;
+    flashcardsSkipped: number;
   };
   errors?: string[];
 }
@@ -185,6 +187,30 @@ export class DataExportService {
     return importMajor === currentMajor;
   }
 
+  private normalizeText(value: unknown): string {
+    return typeof value === 'string' ? value.trim().toLowerCase() : '';
+  }
+
+  private createNoteFingerprint(note: any): string {
+    return [
+      this.normalizeText(note.title),
+      this.normalizeText(note.content),
+      this.normalizeText(note.platform),
+      this.normalizeText(note.sourceUrl)
+    ].join('::');
+  }
+
+  private createFlashcardFingerprint(card: any): string {
+    return [
+      this.normalizeText(card.front),
+      this.normalizeText(card.back),
+      this.normalizeText(card.type),
+      this.normalizeText(card.sourcePlatform),
+      this.normalizeText(card.sourceUrl),
+      this.normalizeText(card.sourceNoteId)
+    ].join('::');
+  }
+
   /**
    * Import data from a JSON object
    * @param data - The parsed JSON data to import
@@ -204,7 +230,9 @@ export class DataExportService {
       flashcardsImported: 0,
       goalsImported: 0,
       pathsImported: 0,
-      sessionsImported: 0
+      sessionsImported: 0,
+      notesSkipped: 0,
+      flashcardsSkipped: 0
     };
 
     try {
@@ -299,6 +327,8 @@ export class DataExportService {
       }
 
       // Import notes
+      const importedNoteIdMap = new Map<string, string>();
+      const validNoteIds = new Set<string>();
       if (Array.isArray(data.notes)) {
         const notesStore = useNotesStore.getState();
 
@@ -309,10 +339,45 @@ export class DataExportService {
           });
         }
 
+        const currentNotes = useNotesStore.getState().notes;
+        const existingNoteIds = new Set(currentNotes.map(note => note.id));
+        const existingNoteFingerprints = new Map<string, string>();
+        currentNotes.forEach(note => {
+          validNoteIds.add(note.id);
+          existingNoteFingerprints.set(this.createNoteFingerprint(note), note.id);
+        });
+
         data.notes.forEach((note: any) => {
           try {
-            // Create a new note with the imported data
+            if (!note || typeof note !== 'object') {
+              details.notesSkipped++;
+              return;
+            }
+
+            const noteFingerprint = this.createNoteFingerprint(note);
+            if (mergeMode === 'merge') {
+              if (note.id && existingNoteIds.has(note.id)) {
+                importedNoteIdMap.set(note.id, note.id);
+                details.notesSkipped++;
+                return;
+              }
+
+              const existingByFingerprint = existingNoteFingerprints.get(noteFingerprint);
+              if (existingByFingerprint) {
+                if (note.id) {
+                  importedNoteIdMap.set(note.id, existingByFingerprint);
+                }
+                details.notesSkipped++;
+                return;
+              }
+            }
+
+            const importedNoteId = typeof note.id === 'string' && note.id.trim()
+              ? note.id
+              : `note_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+
             notesStore.addNote({
+              id: importedNoteId,
               title: note.title,
               content: note.content,
               platform: note.platform,
@@ -320,8 +385,16 @@ export class DataExportService {
               tags: note.tags || [],
               isAIEnhanced: note.isAIEnhanced || false,
               originalContent: note.originalContent,
-              sessionId: note.sessionId
+              sessionId: note.sessionId,
+              createdAt: typeof note.createdAt === 'number' ? note.createdAt : Date.now(),
+              updatedAt: typeof note.updatedAt === 'number' ? note.updatedAt : Date.now()
             });
+            existingNoteIds.add(importedNoteId);
+            validNoteIds.add(importedNoteId);
+            existingNoteFingerprints.set(noteFingerprint, importedNoteId);
+            if (note.id) {
+              importedNoteIdMap.set(note.id, importedNoteId);
+            }
             details.notesImported++;
           } catch (error) {
             errors.push(`Failed to import note: ${note.title || 'Unknown'}`);
@@ -339,16 +412,63 @@ export class DataExportService {
           });
         }
 
-        const cardsToImport = data.flashcards.map((card: any) => ({
-          front: card.front,
-          back: card.back,
-          type: card.type,
-          difficulty: card.difficulty,
-          tags: card.tags || [],
-          sourceNoteId: card.sourceNoteId,
-          sourcePlatform: card.sourcePlatform,
-          sourceUrl: card.sourceUrl
-        }));
+        const currentFlashcards = useFlashcardStore.getState().flashcards;
+        const existingCardIds = new Set(currentFlashcards.map(card => card.id));
+        const existingCardFingerprints = new Set(
+          currentFlashcards.map(card => this.createFlashcardFingerprint(card))
+        );
+
+        const cardsToImport: any[] = [];
+        data.flashcards.forEach((card: any) => {
+          if (!card || typeof card !== 'object') {
+            details.flashcardsSkipped++;
+            return;
+          }
+
+          let resolvedSourceNoteId: string | undefined;
+          if (card.sourceNoteId) {
+            const mappedSourceNoteId = importedNoteIdMap.get(card.sourceNoteId) || card.sourceNoteId;
+            resolvedSourceNoteId = validNoteIds.has(mappedSourceNoteId) ? mappedSourceNoteId : undefined;
+          }
+
+          const candidateCard = {
+            id: card.id,
+            front: card.front,
+            back: card.back,
+            type: card.type,
+            difficulty: card.difficulty,
+            tags: card.tags || [],
+            sourceNoteId: resolvedSourceNoteId,
+            sourcePlatform: card.sourcePlatform,
+            sourceUrl: card.sourceUrl,
+            createdAt: card.createdAt,
+            nextReviewDate: card.nextReviewDate,
+            reviewCount: card.reviewCount,
+            correctCount: card.correctCount,
+            intervalDays: card.intervalDays,
+            easeFactor: card.easeFactor,
+            lastReviewed: card.lastReviewed
+          };
+
+          const flashcardFingerprint = this.createFlashcardFingerprint(candidateCard);
+
+          if (mergeMode === 'merge') {
+            if (card.id && existingCardIds.has(card.id)) {
+              details.flashcardsSkipped++;
+              return;
+            }
+            if (existingCardFingerprints.has(flashcardFingerprint)) {
+              details.flashcardsSkipped++;
+              return;
+            }
+          }
+
+          cardsToImport.push(candidateCard);
+          if (candidateCard.id) {
+            existingCardIds.add(candidateCard.id);
+          }
+          existingCardFingerprints.add(flashcardFingerprint);
+        });
 
         try {
           flashcardStore.addFlashcards(cardsToImport);
@@ -360,7 +480,7 @@ export class DataExportService {
 
       return {
         success: true,
-        message: `Successfully imported data. ${details.notesImported} notes, ${details.flashcardsImported} flashcards, ${details.goalsImported} goals, and ${details.pathsImported} paths imported.`,
+        message: `Successfully imported data. ${details.notesImported} notes, ${details.flashcardsImported} flashcards, ${details.goalsImported} goals, and ${details.pathsImported} paths imported. ${details.notesSkipped + details.flashcardsSkipped} duplicates skipped.`,
         details,
         ...(errors.length > 0 && { errors })
       };

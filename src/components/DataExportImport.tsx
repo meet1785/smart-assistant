@@ -294,6 +294,12 @@ export const DataExportImport: React.FC<DataExportImportProps> = ({
               {importResult.details.pathsImported > 0 && (
                 <li>{importResult.details.pathsImported} learning paths imported</li>
               )}
+              {importResult.details.notesSkipped > 0 && (
+                <li>{importResult.details.notesSkipped} duplicate notes skipped</li>
+              )}
+              {importResult.details.flashcardsSkipped > 0 && (
+                <li>{importResult.details.flashcardsSkipped} duplicate flashcards skipped</li>
+              )}
             </ul>
           </div>
         </Alert>

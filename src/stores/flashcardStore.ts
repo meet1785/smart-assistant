@@ -36,8 +36,16 @@ export interface FlashcardState {
   currentCardIndex: number;
   
   // Actions
-  addFlashcard: (card: Omit<Flashcard, 'id' | 'createdAt' | 'nextReviewDate' | 'reviewCount' | 'correctCount' | 'intervalDays' | 'easeFactor'>) => void;
-  addFlashcards: (cards: Omit<Flashcard, 'id' | 'createdAt' | 'nextReviewDate' | 'reviewCount' | 'correctCount' | 'intervalDays' | 'easeFactor'>[]) => void;
+  addFlashcard: (
+    card: Omit<Flashcard, 'id' | 'createdAt' | 'nextReviewDate' | 'reviewCount' | 'correctCount' | 'intervalDays' | 'easeFactor'> &
+      Partial<Pick<Flashcard, 'id' | 'createdAt' | 'nextReviewDate' | 'reviewCount' | 'correctCount' | 'intervalDays' | 'easeFactor' | 'lastReviewed'>>
+  ) => void;
+  addFlashcards: (
+    cards: (
+      Omit<Flashcard, 'id' | 'createdAt' | 'nextReviewDate' | 'reviewCount' | 'correctCount' | 'intervalDays' | 'easeFactor'> &
+      Partial<Pick<Flashcard, 'id' | 'createdAt' | 'nextReviewDate' | 'reviewCount' | 'correctCount' | 'intervalDays' | 'easeFactor' | 'lastReviewed'>>
+    )[]
+  ) => void;
   updateFlashcard: (id: string, updates: Partial<Flashcard>) => void;
   deleteFlashcard: (id: string) => void;
   reviewFlashcard: (id: string, quality: number) => void; // quality: 0-5 (SM-2 algorithm)
@@ -100,15 +108,16 @@ export const useFlashcardStore = create<FlashcardState>()(
       currentCardIndex: 0,
 
       addFlashcard: (cardData) => {
+        const now = Date.now();
         const card: Flashcard = {
           ...cardData,
-          id: `card_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          createdAt: Date.now(),
-          nextReviewDate: Date.now(), // Due immediately for first review
-          reviewCount: 0,
-          correctCount: 0,
-          intervalDays: 0,
-          easeFactor: 2.5, // Default SM-2 ease factor
+          id: cardData.id || `card_${now}_${Math.random().toString(36).substring(2, 11)}`,
+          createdAt: cardData.createdAt || now,
+          nextReviewDate: cardData.nextReviewDate || now, // Due immediately for first review
+          reviewCount: cardData.reviewCount ?? 0,
+          correctCount: cardData.correctCount ?? 0,
+          intervalDays: cardData.intervalDays ?? 0,
+          easeFactor: cardData.easeFactor ?? 2.5, // Default SM-2 ease factor
         };
         set((state) => ({
           flashcards: [card, ...state.flashcards]
@@ -116,16 +125,20 @@ export const useFlashcardStore = create<FlashcardState>()(
       },
 
       addFlashcards: (cardsData) => {
-        const newCards: Flashcard[] = cardsData.map(cardData => ({
-          ...cardData,
-          id: `card_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          createdAt: Date.now(),
-          nextReviewDate: Date.now(), // Due immediately for first review
-          reviewCount: 0,
-          correctCount: 0,
-          intervalDays: 0,
-          easeFactor: 2.5,
-        }));
+        const baseNow = Date.now();
+        const newCards: Flashcard[] = cardsData.map((cardData, index) => {
+          const now = baseNow + index;
+          return {
+            ...cardData,
+            id: cardData.id || `card_${now}_${Math.random().toString(36).substring(2, 11)}`,
+            createdAt: cardData.createdAt || now,
+            nextReviewDate: cardData.nextReviewDate || now, // Due immediately for first review
+            reviewCount: cardData.reviewCount ?? 0,
+            correctCount: cardData.correctCount ?? 0,
+            intervalDays: cardData.intervalDays ?? 0,
+            easeFactor: cardData.easeFactor ?? 2.5,
+          };
+        });
         set((state) => ({
           flashcards: [...newCards, ...state.flashcards]
         }));

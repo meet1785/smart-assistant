@@ -25,12 +25,13 @@ The Data Export/Import feature allows users to backup and restore their learning
 
 ### Import Capabilities
 - **Two Import Modes**:
-  - **Merge Mode** (Recommended): Adds imported data to existing data
+  - **Merge Mode** (Recommended): Adds imported data while skipping duplicates
   - **Replace Mode**: Removes existing data and replaces with imported data
 - **Validation**: Comprehensive validation of import file structure
 - **Version Compatibility**: Checks version compatibility before import
 - **Error Handling**: Clear error messages if import fails
 - **Detailed Results**: Shows exactly what was imported
+- **Relationship Preservation**: Maintains note ↔ flashcard links during restore
 
 ### Data Included
 - 📚 **Notes**: All your smart notes with AI enhancements
@@ -97,9 +98,10 @@ The Data Export/Import feature allows users to backup and restore their learning
 
 2. **Choose Import Mode**
    - **Merge with existing data** (Recommended)
-     - Adds imported data to your current data
-     - Existing data is preserved
-     - No data loss
+      - Adds imported data to your current data
+      - Automatically skips duplicate notes and flashcards
+      - Existing data is preserved
+      - No data loss
    - **Replace existing data** (⚠️ Use with caution)
      - Removes ALL current data first
      - Replaces with imported data
@@ -374,7 +376,7 @@ A: Weekly backups are recommended, or after significant progress milestones.
 A: Yes, manually. Export from one device, transfer the file, import on another device.
 
 **Q: Will importing duplicate my data?**
-A: In merge mode, yes, duplicates can occur. Use replace mode if starting fresh.
+A: Merge mode skips duplicate notes and flashcards automatically. Replace mode fully overwrites current data.
 
 **Q: Is my data safe?**
 A: Yes, all data stays local. You control where backups are stored.
