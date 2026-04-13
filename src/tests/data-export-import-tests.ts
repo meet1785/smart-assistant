@@ -178,7 +178,8 @@ export const test4_ImportMerge = {
     '✓ Details list shows counts for each type',
     '✓ Imported data appears in respective managers',
     '✓ Original data remains intact',
-    '✓ Total counts = original + imported',
+    '✓ Duplicate records from repeated imports are skipped',
+    '✓ Source note links for imported flashcards remain valid',
     '✓ Modal auto-closes after 5 seconds'
   ]
 };
@@ -355,7 +356,7 @@ export const test8_EdgeCases = {
         '2. Immediately import the same file',
         '3. Check for duplicates in merge mode'
       ],
-      expected: '✓ Duplicates may occur in merge mode (expected behavior)'
+      expected: '✓ Duplicate notes/flashcards are skipped in merge mode'
     },
     {
       name: 'Multiple imports',
@@ -363,7 +364,18 @@ export const test8_EdgeCases = {
         '1. Import same file 3 times in merge mode',
         '2. Count data items'
       ],
-      expected: '✓ Data multiplies each time (expected for merge mode)'
+      expected: '✓ Data counts remain stable after first import (duplicates skipped)'
+    },
+    {
+      name: 'Flashcard source note integrity',
+      steps: [
+        '1. Create a note and generate flashcards from it',
+        '2. Export the dataset',
+        '3. Import the file into a clean profile (replace mode)',
+        '4. Verify generated flashcards still reference the imported note',
+        '5. Repeat import in merge mode and verify no duplicate broken links are created'
+      ],
+      expected: '✓ sourceNoteId references remain valid after import'
     }
   ]
 };

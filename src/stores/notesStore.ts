@@ -21,7 +21,9 @@ export interface NotesState {
   selectedTags: string[];
   
   // Actions
-  addNote: (note: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  addNote: (
+    note: Omit<Note, 'id' | 'createdAt' | 'updatedAt'> & Partial<Pick<Note, 'id' | 'createdAt' | 'updatedAt'>>
+  ) => void;
   updateNote: (id: string, updates: Partial<Note>) => void;
   deleteNote: (id: string) => void;
   searchNotes: (query: string) => void;
@@ -39,11 +41,12 @@ export const useNotesStore = create<NotesState>()(
       selectedTags: [],
 
       addNote: (noteData) => {
+        const now = Date.now();
         const note: Note = {
           ...noteData,
-          id: `note_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          createdAt: Date.now(),
-          updatedAt: Date.now(),
+          id: noteData.id || `note_${now}_${Math.random().toString(36).substr(2, 9)}`,
+          createdAt: noteData.createdAt || now,
+          updatedAt: noteData.updatedAt || now,
         };
         set((state) => ({
           notes: [note, ...state.notes]
